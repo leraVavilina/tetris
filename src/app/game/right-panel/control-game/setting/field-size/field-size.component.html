@@ -1,0 +1,63 @@
+<div class="width">
+  <div class="ticks-labels">
+    @for (label of widthLabels; track $index) {
+      <div
+        class="tick-label"
+        (click)="setWidth(label)"
+      >
+        {{ label }}
+      </div>
+    }
+  </div>
+  <input
+    size="s"
+    step="1"
+    tuiSlider
+    type="range"
+    [min]="minWidth"
+    [max]="maxWidth"
+    [segments]="widthLabels.length - 1"
+    [formControl]="widthControl"
+  />
+</div>
+
+<div class="height">
+  <input
+    size="s"
+    step="1"
+    tuiSlider
+    type="range"
+    [min]="minHeight"
+    [max]="maxHeight"
+    [segments]="heightLabels.length - 1"
+    [formControl]="heightControl"
+  />
+  <div class="ticks-labels">
+    @for (label of heightLabels; track $index) {
+      <div
+        class="tick-label"
+        (click)="setHeight(label)"
+      >
+        {{ label }}
+      </div>
+    }
+  </div>
+</div>
+<div class="field">
+  <app-field />
+</div>
+
+<tui-notification
+  appearance="warning"
+  size="s"
+>
+  При изменении размеров прогресс игры не сохранится!!!
+</tui-notification>
+
+<button
+  appearance="secondary"
+  tuiButton
+  (click)="submit()"
+>
+  Применить
+</button>

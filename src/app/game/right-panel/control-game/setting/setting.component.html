@@ -1,0 +1,29 @@
+<tui-tabs [(activeItemIndex)]="activeTab">
+  <button
+    tuiTab
+    type="button"
+  >
+    Размер поля
+  </button>
+  <button
+    tuiTab
+    type="button"
+  >
+    Управление
+  </button>
+  <button
+    tuiTab
+    type="button"
+  >
+    Правила игры
+  </button>
+</tui-tabs>
+
+@switch (activeTab()) {
+  @case (0) {
+    <app-field-size />
+  }
+  @case (2) {
+    <app-rule />
+  }
+}

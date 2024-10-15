@@ -1,0 +1,47 @@
+import { Component, inject } from '@angular/core';
+import { FigureComponent } from '../../components/figure/figure.component';
+import { GAP_PX, WIDTH_FIELD_PX } from '../../injection-tokens';
+import { CellService } from '../../helpers/cell.service';
+import { FieldService } from '../../helpers/field.service';
+import { combineLatest, combineLatestWith, map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+
+@Component({
+  selector: 'app-next-figure',
+  standalone: true,
+  imports: [FigureComponent, AsyncPipe],
+  providers: [
+    FieldService,
+    CellService,
+    {
+      provide: WIDTH_FIELD_PX,
+      useValue: 60,
+    },
+    {
+      provide: GAP_PX,
+      useValue: 0,
+    },
+  ],
+  templateUrl: './next-figure.component.html',
+  styleUrl: './next-figure.component.scss',
+})
+export class NextFigureComponent {
+  private readonly _gapPx = inject(GAP_PX);
+  private readonly _fieldService = inject(FieldService);
+  private readonly _cellService = inject(CellService);
+
+  readonly width = inject(WIDTH_FIELD_PX);
+  readonly height = combineLatest([
+    this._fieldService.height$,
+    this._cellService.cellSize$,
+  ]).pipe(
+    map(([cellSize, height]) => {
+      return cellSize * height + this._gapPx * (height - 1);
+    }),
+  );
+
+  constructor() {
+    this._fieldService.setHeight(3);
+    this._fieldService.setWidth(3);
+  }
+}

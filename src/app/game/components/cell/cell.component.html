@@ -1,0 +1,8 @@
+@if (cellSize$ | async; as size) {
+  <div
+    [style.width.px]="size"
+    [style.height.px]="size"
+    [style.backgroundColor]="colorValue()"
+    [style.visibility]="isVisible()"
+  ></div>
+}

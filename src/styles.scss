@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+.island {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border: 8px solid var(--tui-background-accent-1);
+  border-radius: 2px;
+}
+
+.title {
+  font: var(--tui-font-text-ui-l);
+  font-weight: 600;
+}

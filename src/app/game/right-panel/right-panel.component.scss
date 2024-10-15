@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+app-control-game {
+  margin-bottom: 20px;
+}
+
+app-next-figure {
+  margin-bottom: -8px;
+}

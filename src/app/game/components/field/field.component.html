@@ -1,0 +1,15 @@
+<div
+  class="columns"
+  [style.gap.px]="gap"
+>
+  @for (verticalCell of cells$ | async; track $index) {
+    <div
+      class="rows"
+      [style.gap.px]="gap"
+    >
+      @for (horizontalCell of verticalCell; track $index; let y = $index) {
+        <app-cell />
+      }
+    </div>
+  }
+</div>

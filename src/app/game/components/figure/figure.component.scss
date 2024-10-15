@@ -1,0 +1,14 @@
+:host {
+  width: fit-content;
+  position: relative;
+}
+
+.rows {
+  display: flex;
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}

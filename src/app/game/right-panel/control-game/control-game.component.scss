@@ -1,0 +1,12 @@
+:host {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  height: fit-content;
+  align-items: center;
+}
+
+tui-icon {
+  justify-self: end;
+  cursor: pointer;
+}

@@ -1,0 +1,55 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0px;
+  min-height: 200px;
+  box-sizing: border-box;
+}
+
+.ticks-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tick-label {
+  display: block;
+  width: 10px;
+  cursor: pointer;
+}
+
+.width {
+  width: 250px;
+  margin-left: 50px;
+  height: 0px;
+}
+
+.height {
+  position: absolute;
+  left: -160px;
+  top: 140px;
+  width: 230px;
+  height: 230px;
+  transform: rotate(90deg);
+  .tick-label {
+    transform: rotate(-90deg);
+  }
+}
+
+.title {
+  align-self: center;
+  margin-bottom: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  margin: 30px;
+  margin-top: 60px;
+  min-height: 230px;
+}
+
+button {
+  margin-top: 20px;
+}
