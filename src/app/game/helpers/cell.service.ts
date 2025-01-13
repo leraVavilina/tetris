@@ -20,6 +20,10 @@ export class CellService {
     }),
   );
 
+  get cells(): Cell[][] {
+    return this._cellSubject.value;
+  }
+
   constructor() {
     combineLatest([this._fieldService.height$, this._fieldService.width$])
       .pipe(takeUntilDestroyed())

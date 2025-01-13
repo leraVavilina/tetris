@@ -2,12 +2,12 @@
   class="columns"
   [style.gap.px]="gap"
 >
-  @for (verticalCell of figureView(); track $index) {
+  @for (verticalCell of figure(); track $index) {
     <div
       class="rows"
       [style.gap.px]="gap"
     >
-      @for (horizontalCell of verticalCell; track $index; let y = $index) {
+      @for (horizontalCell of verticalCell; track $index) {
         <app-cell
           [isVisible]="horizontalCell === 1"
           [color]="color()"

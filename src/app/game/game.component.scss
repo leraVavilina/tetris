@@ -13,6 +13,7 @@ $sideMargin: 20px;
   position: relative;
 
   .figure {
+    pointer-events: none;
     position: absolute;
     top: 0px;
     left: 0px;

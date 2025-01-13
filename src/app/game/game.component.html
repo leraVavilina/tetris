@@ -1,7 +1,11 @@
 <div class="field">
-  <app-field />
-  <div class="figure">
-    <app-figure [figure]="'L'" />
-  </div>
+  <app-field (hoverPosition)="setPosition($event)" />
+  @if (figure$ | async; as figure) {
+    <app-figure
+      class="figure"
+      appTranslateFigure
+      [figure]="figure"
+    />
+  }
 </div>
 <app-right-panel />

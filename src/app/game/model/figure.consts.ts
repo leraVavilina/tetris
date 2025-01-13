@@ -29,3 +29,10 @@ export const FIGURE_VIEW: Record<FigureType, FigureView> = {
     [0, 1, 0],
   ],
 };
+
+export function isFigureType(view: any): view is FigureType {
+  if (view && FigureType.includes(view)) {
+    return true;
+  }
+  return false;
+}

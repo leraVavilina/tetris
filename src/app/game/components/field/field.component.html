@@ -2,13 +2,13 @@
   class="columns"
   [style.gap.px]="gap"
 >
-  @for (verticalCell of cells$ | async; track $index) {
+  @for (verticalCell of cells$ | async; track $index; let y = $index) {
     <div
       class="rows"
       [style.gap.px]="gap"
     >
-      @for (horizontalCell of verticalCell; track $index; let y = $index) {
-        <app-cell />
+      @for (horizontalCell of verticalCell; track $index; let x = $index) {
+        <app-cell (mousemove)="setPosition(x, y)" />
       }
     </div>
   }
