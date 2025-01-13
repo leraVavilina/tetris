@@ -8,10 +8,10 @@ import { FigureComponent } from './components/figure/figure.component';
 import { FieldService } from './helpers/field.service';
 import { TranslateFigureDirective } from './helpers/action/translate-figure.component';
 import { Coordinates } from './model/cell.model';
-import { FIGURE_VIEW } from './model/figure.consts';
+import { DEFAULT_POSITION } from './model/figure.consts';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
-import { map } from 'rxjs';
+import { RotateFigureDirective } from './helpers/action/rotate-figure.component';
 
 @Component({
   selector: 'app-game',
@@ -22,6 +22,7 @@ import { map } from 'rxjs';
     FigureComponent,
     TranslateFigureDirective,
     AsyncPipe,
+    RotateFigureDirective,
   ],
   providers: [
     GameService,
@@ -43,8 +44,10 @@ import { map } from 'rxjs';
 export class GameComponent {
   private readonly _figureService = inject(FigureService);
   readonly figure$ = this._figureService.figureView$;
+  readonly fieldPosition = signal<Coordinates>(DEFAULT_POSITION);
 
   setPosition(position: Coordinates) {
+    this.fieldPosition.set(position);
     this._figureService.setPosition(position);
   }
 }

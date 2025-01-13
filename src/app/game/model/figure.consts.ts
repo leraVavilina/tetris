@@ -1,3 +1,4 @@
+import { Coordinates } from './cell.model';
 import { FigureType, FigureView } from './tetris-component.model';
 
 export const FIGURE_VIEW: Record<FigureType, FigureView> = {
@@ -36,3 +37,5 @@ export function isFigureType(view: any): view is FigureType {
   }
   return false;
 }
+
+export const DEFAULT_POSITION: Coordinates = { x: 0, y: 0 };

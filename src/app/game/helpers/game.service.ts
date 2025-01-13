@@ -3,21 +3,10 @@ import { FigureType, FigureView } from '../model/tetris-component.model';
 import { Coordinates } from '../model/cell.model';
 import { CellService } from './cell.service';
 import { FIGURE_VIEW, isFigureType } from '../model/figure.consts';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class GameService {
   private readonly _cellService = inject(CellService);
-  private readonly _positionSubject = new BehaviorSubject<Coordinates>({
-    x: 0,
-    y: 0,
-  });
-  private readonly _figureTypeSubject = new BehaviorSubject<
-    FigureType | undefined
-  >('L');
-
-  readonly position$ = this._positionSubject.asObservable();
-  readonly figureType = this._figureTypeSubject.asObservable();
 
   isAboard(figure: FigureView, position: Coordinates): boolean {
     const cells = this._cellService.cells;

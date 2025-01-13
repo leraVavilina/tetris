@@ -1,19 +1,24 @@
-import { Directive, ElementRef, inject, input } from '@angular/core';
+import { Directive, HostListener, inject, input } from '@angular/core';
+import { FigureService } from '../figure.service';
 import { Coordinates } from '../../model/cell.model';
-import { CellService } from '../cell.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { GAP_PX } from '../../injection-tokens';
-import { GameService } from '../game.service';
-import { FigureView } from '../../model/tetris-component.model';
-import { FigureComponent } from '../../components/figure/figure.component';
 
 @Directive({ selector: '[appRotateFigure]', standalone: true })
 export class RotateFigureDirective {
-  private readonly _cellSize = toSignal(inject(CellService).cellSize$);
-  private readonly _gap = inject(GAP_PX);
-  private readonly _gameService = inject(GameService);
-  private readonly _elementRef = inject(ElementRef<FigureComponent>);
+  private readonly _figureService = inject(FigureService);
+  readonly position = input.required<Coordinates>({ alias: 'appRotateFigure' });
 
-  readonly position = input.required<Coordinates>();
-  readonly figure = input.required<FigureView>();
+  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
+    if (event.button === 0) {
+      // left click
+    }
+    if (event.button === 2) {
+      // right click
+      this._figureService.rotate();
+      this._figureService.setPosition(this.position());
+    }
+  }
+
+  @HostListener('contextmenu', ['$event']) contextmenu(event: MouseEvent) {
+    event.preventDefault();
+  }
 }

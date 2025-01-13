@@ -4,15 +4,14 @@ import { Coordinates } from '../model/cell.model';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { CellService } from './cell.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FIGURE_VIEW } from '../model/figure.consts';
+import { DEFAULT_POSITION, FIGURE_VIEW } from '../model/figure.consts';
 
 @Injectable()
 export class FigureService {
   private readonly _cellService = inject(CellService);
-  private readonly _positionSubject = new BehaviorSubject<Coordinates>({
-    x: 0,
-    y: 0,
-  });
+  private readonly _positionSubject = new BehaviorSubject<Coordinates>(
+    DEFAULT_POSITION,
+  );
   private readonly _figureTypeSubject = new BehaviorSubject<
     FigureType | undefined
   >('L');
@@ -41,12 +40,30 @@ export class FigureService {
     }
     const lastIndexX = this._cellService.cells[0].length - view[0].length;
     const lastIndexY = this._cellService.cells.length - view.length;
-    if (position.x > lastIndexX) {
-      position.x = lastIndexX;
+    const newPosition = { x: position.x, y: position.y };
+    if (newPosition.x > lastIndexX) {
+      newPosition.x = lastIndexX;
     }
-    if (position.y > lastIndexY) {
-      position.y = lastIndexY;
+    if (newPosition.y > lastIndexY) {
+      newPosition.y = lastIndexY;
     }
-    this._positionSubject.next(position);
+    this._positionSubject.next(newPosition);
+  }
+
+  rotate() {
+    const view = this._figureViewSubject.value;
+    if (!view) {
+      return;
+    }
+    const result = Array.from(
+      { length: view[0].length },
+      () => new Array(view.length),
+    );
+    for (let x = 0; x < view[0].length; x++) {
+      for (let y = 0; y < view.length; y++) {
+        result[view[0].length - x - 1][y] = view[y][x];
+      }
+    }
+    this._figureViewSubject.next(result);
   }
 }
