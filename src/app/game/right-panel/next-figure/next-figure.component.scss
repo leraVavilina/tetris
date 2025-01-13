@@ -19,3 +19,16 @@
   display: flex;
   align-items: center;
 }
+
+.next {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+app-figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

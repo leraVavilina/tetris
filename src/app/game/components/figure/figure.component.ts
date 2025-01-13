@@ -1,9 +1,13 @@
 import { Component, inject, input } from '@angular/core';
-import { FigureType, FigureView } from '../../model/tetris-component.model';
 import { Color } from '../../model/color.model';
 import { CellComponent } from '../cell/cell.component';
 import { GAP_PX } from '../../injection-tokens';
-import { FIGURE_VIEW, isFigureType } from '../../model/figure.consts';
+import {
+  FIGURE_VIEW,
+  FigureType,
+  FigureView,
+  isFigureType,
+} from '../../model/figure.consts';
 
 @Component({
   selector: 'app-figure',
@@ -23,5 +27,5 @@ export class FigureComponent {
       return figure;
     },
   });
-  readonly color = input<Color>('red');
+  readonly color = input.required<Color>();
 }

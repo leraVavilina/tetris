@@ -1,12 +1,13 @@
 <div class="field">
   <app-field
-    [appRotateFigure]="fieldPosition()"
+    [appActionFigure]="fieldPosition()"
     (hoverPosition)="setPosition($event)"
   />
   @if (figure$ | async; as figure) {
     <app-figure
       appTranslateFigure
       class="figure"
+      [color]="(color$ | async) ?? 'default'"
       [figure]="figure"
     />
   }

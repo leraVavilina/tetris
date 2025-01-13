@@ -1,12 +1,14 @@
-export type Color =
-  | 'red'
-  | 'green'
-  | 'blue'
-  | 'yellow'
-  | 'purple'
-  | 'orange'
-  | 'pink'
-  | 'default';
+export type Color = (typeof Color)[number];
+export const Color = [
+  'red',
+  'green',
+  'blue',
+  'yellow',
+  'purple',
+  'orange',
+  'pink',
+  'default',
+] as const;
 
 export const COLOR_MAP: Record<Color, string> = {
   blue: '#93C5FD',

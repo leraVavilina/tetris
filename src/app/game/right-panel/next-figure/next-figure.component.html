@@ -1,27 +1,26 @@
 <div class="island">
-  <div class="title">Текущая:</div>
-  <div class="figure">
-    <app-figure
-      [color]="'green'"
-      [figure]="'O'"
-      [style.height.px]="height | async"
-      [style.width.px]="width"
-    ></app-figure>
-  </div>
-  <div class="title">Следующие:</div>
-  <app-figure
-    [color]="'blue'"
-    [figure]="'T'"
-    [style.width.px]="width"
-  ></app-figure>
-  <app-figure
-    [color]="'purple'"
-    [figure]="'L'"
-    [style.width.px]="width"
-  ></app-figure>
-  <app-figure
-    [color]="'red'"
-    [figure]="'O'"
-    [style.width.px]="width"
-  ></app-figure>
+  @if (current$ | async; as current) {
+    <div class="title">Текущая:</div>
+    <div class="figure">
+      <app-figure
+        [color]="current.color"
+        [figure]="current.type"
+        [style.height.px]="height | async"
+        [style.width.px]="width"
+      ></app-figure>
+    </div>
+  }
+  @if (next$ | async; as next) {
+    <div class="title">Следующие:</div>
+    <div class="next">
+      @for (figure of next; track $index) {
+        <app-figure
+          [color]="figure.color"
+          [figure]="figure.type"
+          [style.height.px]="height | async"
+          [style.width.px]="width"
+        ></app-figure>
+      }
+    </div>
+  }
 </div>

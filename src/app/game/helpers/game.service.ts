@@ -1,8 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { FigureType, FigureView } from '../model/tetris-component.model';
 import { Coordinates } from '../model/cell.model';
 import { CellService } from './cell.service';
-import { FIGURE_VIEW, isFigureType } from '../model/figure.consts';
+import {
+  FIGURE_VIEW,
+  FigureType,
+  FigureView,
+  isFigureType,
+} from '../model/figure.consts';
 
 @Injectable()
 export class GameService {
@@ -25,7 +29,7 @@ export class GameService {
       for (let j = 0; j < figure[0].length; j++) {
         if (
           figure[i][j] &&
-          this._cellService.cells[position.x + i][position.y + j]
+          this._cellService.cells[position.y + i][position.x + j]
         ) {
           return false;
         }

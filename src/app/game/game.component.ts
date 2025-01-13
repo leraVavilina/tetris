@@ -11,7 +11,8 @@ import { Coordinates } from './model/cell.model';
 import { DEFAULT_POSITION } from './model/figure.consts';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
-import { RotateFigureDirective } from './helpers/action/rotate-figure.component';
+import { ActionFigureDirective } from './helpers/action/action-figure.component';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -22,7 +23,7 @@ import { RotateFigureDirective } from './helpers/action/rotate-figure.component'
     FigureComponent,
     TranslateFigureDirective,
     AsyncPipe,
-    RotateFigureDirective,
+    ActionFigureDirective,
   ],
   providers: [
     GameService,
@@ -44,6 +45,10 @@ import { RotateFigureDirective } from './helpers/action/rotate-figure.component'
 export class GameComponent {
   private readonly _figureService = inject(FigureService);
   readonly figure$ = this._figureService.figureView$;
+  readonly color$ = this._figureService.figure$.pipe(
+    filter((figure) => figure !== undefined),
+    map(({ color }) => color),
+  );
   readonly fieldPosition = signal<Coordinates>(DEFAULT_POSITION);
 
   setPosition(position: Coordinates) {

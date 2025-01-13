@@ -1,5 +1,5 @@
 import { Coordinates } from './cell.model';
-import { FigureType, FigureView } from './tetris-component.model';
+import { Color } from './color.model';
 
 export const FIGURE_VIEW: Record<FigureType, FigureView> = {
   O: [
@@ -39,3 +39,12 @@ export function isFigureType(view: any): view is FigureType {
 }
 
 export const DEFAULT_POSITION: Coordinates = { x: 0, y: 0 };
+
+export type FigureView = (0 | 1)[][];
+export const FigureType = ['O', 'I', 'S', 'Z', 'L', 'J', 'T'] as const;
+export type FigureType = (typeof FigureType)[number];
+
+export type Figure = {
+  color: Color;
+  type: FigureType;
+};
