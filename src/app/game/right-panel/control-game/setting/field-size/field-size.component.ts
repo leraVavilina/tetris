@@ -4,7 +4,6 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TuiSlider } from '@taiga-ui/kit';
 import { FieldComponent } from '../../../../components/field/field.component';
 import { GAP_PX, WIDTH_FIELD_PX } from '../../../../injection-tokens';
-import { CellService } from '../../../../helpers/cell.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TuiButton, TuiDialogContext, TuiNotification } from '@taiga-ui/core';
 import { injectContext } from '@taiga-ui/polymorpheus';
@@ -21,7 +20,6 @@ import { Size } from '../../../../model/field.model';
   ],
   providers: [
     FieldService,
-    CellService,
     {
       provide: WIDTH_FIELD_PX,
       useValue: 200,

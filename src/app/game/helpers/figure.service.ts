@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Coordinates } from '../model/cell.model';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
-import { CellService } from './cell.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   DEFAULT_POSITION,
@@ -11,10 +10,11 @@ import {
   FigureView,
 } from '../model/figure.consts';
 import { Color } from '../model/color.model';
+import { FieldService } from './field.service';
 
 @Injectable()
 export class FigureService {
-  private readonly _cellService = inject(CellService);
+  private readonly _fieldService = inject(FieldService);
   private readonly _positionSubject = new BehaviorSubject<Coordinates>(
     DEFAULT_POSITION,
   );
@@ -53,8 +53,8 @@ export class FigureService {
     if (!view) {
       return;
     }
-    const lastIndexX = this._cellService.cells[0].length - view[0].length;
-    const lastIndexY = this._cellService.cells.length - view.length;
+    const lastIndexX = this._fieldService.cells[0].length - view[0].length;
+    const lastIndexY = this._fieldService.cells.length - view.length;
     const newPosition = { x: position.x, y: position.y };
     if (newPosition.x > lastIndexX) {
       newPosition.x = lastIndexX;
@@ -90,6 +90,33 @@ export class FigureService {
     const figure = next.shift();
     this._figureSubject.next(figure);
     next.push(this._randomFigure());
+  }
+
+  downFigure() {
+    const curPosition = this._positionSubject.value;
+    const view = this._figureViewSubject.value;
+    const curFigure = this._figureSubject.value;
+    if (!view || !curFigure) {
+      return;
+    }
+    if (
+      !this._fieldService.canMove(view, {
+        x: curPosition.x,
+        y: curPosition.y + 1,
+      })
+    ) {
+      this._positionSubject.next({
+        x: curPosition.x,
+        y: 0,
+      });
+      this._fieldService.setFigure(view, curFigure.color, curPosition);
+      this.generateNewFigure();
+    } else {
+      this._positionSubject.next({
+        x: curPosition.x,
+        y: curPosition.y + 1,
+      });
+    }
   }
 
   private _randomFigure(): Figure {

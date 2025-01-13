@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { Color, COLOR_MAP } from '../../model/color.model';
-import { CellService } from '../../helpers/cell.service';
 import { AsyncPipe } from '@angular/common';
+import { FieldService } from '../../helpers/field.service';
 
 type Visibility = 'hidden' | 'visible';
 
@@ -13,7 +13,7 @@ type Visibility = 'hidden' | 'visible';
   styleUrl: './cell.component.scss',
 })
 export class CellComponent {
-  readonly cellSize$ = inject(CellService).cellSize$;
+  readonly cellSize$ = inject(FieldService).cellSize$;
 
   readonly color = input<Color>('default');
   readonly colorValue = computed<string>(() => COLOR_MAP[this.color()]);

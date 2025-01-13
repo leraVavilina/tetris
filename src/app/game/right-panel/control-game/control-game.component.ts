@@ -1,27 +1,33 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TuiButton, TuiDialogService, TuiHint, TuiIcon } from '@taiga-ui/core';
 import { SettingComponent } from './setting/setting.component';
 import { FieldService } from '../../helpers/field.service';
 import { Size } from '../../model/field.model';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
+import { GameService } from '../../helpers/game.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-control-game',
   standalone: true,
-  imports: [TuiButton, TuiIcon, TuiHint],
+  imports: [TuiButton, TuiIcon, TuiHint, AsyncPipe],
   templateUrl: './control-game.component.html',
   styleUrl: './control-game.component.scss',
 })
 export class ControlGameComponent {
   private readonly _fieldService = inject(FieldService);
+  private readonly _gameService = inject(GameService);
   private readonly _tuiDialog = inject(TuiDialogService);
-  readonly isPause = signal<boolean>(true);
-
+  readonly isPlay$ = this._gameService.isPlay$;
   readonly width$ = this._fieldService.width$;
   readonly height$ = this._fieldService.height$;
 
-  toggle() {
-    this.isPause.update((isPause) => !isPause);
+  pause() {
+    this._gameService.pause();
+  }
+
+  play() {
+    this._gameService.play();
   }
 
   showDialog() {

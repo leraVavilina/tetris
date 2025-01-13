@@ -1,17 +1,4 @@
-@if (isPause()) {
-  <button
-    size="s"
-    tuiButton
-    type="button"
-    appearance="primary"
-    tuiHintAppearance="dark"
-    tuiHintDirection="bottom"
-    tuiHint="Поставить игру на паузу"
-    (click)="toggle()"
-  >
-    Пауза
-  </button>
-} @else {
+@if (isPlay$ | async) {
   <button
     size="s"
     tuiButton
@@ -20,9 +7,22 @@
     tuiHintAppearance="dark"
     tuiHintDirection="bottom"
     tuiHint="Возобновить игру"
-    (click)="toggle()"
+    (click)="pause()"
   >
     Возобновить
+  </button>
+} @else {
+  <button
+    size="s"
+    tuiButton
+    type="button"
+    appearance="primary"
+    tuiHintAppearance="dark"
+    tuiHintDirection="bottom"
+    tuiHint="Поставить игру на паузу"
+    (click)="play()"
+  >
+    Пауза
   </button>
 }
 

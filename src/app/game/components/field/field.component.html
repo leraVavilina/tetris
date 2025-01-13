@@ -8,7 +8,10 @@
       [style.gap.px]="gap"
     >
       @for (horizontalCell of verticalCell; track $index; let x = $index) {
-        <app-cell (mousemove)="setPosition(x, y)" />
+        <app-cell
+          [color]="horizontalCell?.color ?? 'default'"
+          (mousemove)="setPosition(x, y)"
+        />
       }
     </div>
   }

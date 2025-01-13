@@ -1,50 +1,47 @@
-import { inject, Injectable } from '@angular/core';
-import { Coordinates } from '../model/cell.model';
-import { CellService } from './cell.service';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
-  FIGURE_VIEW,
-  FigureType,
-  FigureView,
-  isFigureType,
-} from '../model/figure.consts';
+  BehaviorSubject,
+  interval,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
+import { FigureService } from './figure.service';
 
 @Injectable()
-export class GameService {
-  private readonly _cellService = inject(CellService);
+export class GameService implements OnDestroy {
+  private readonly _figureService = inject(FigureService);
+  private readonly _isPlaySubject = new BehaviorSubject<boolean>(true);
+  private readonly _onDestroy = new Subject<void>();
 
-  isAboard(figure: FigureView, position: Coordinates): boolean {
-    const cells = this._cellService.cells;
+  readonly isPlay$ = this._isPlaySubject.asObservable();
 
-    if (!cells.length) {
-      return true;
-    }
-    return (
-      figure[0].length + position.x > cells[0].length ||
-      figure.length + position.y > cells.length
-    );
+  constructor() {
+    this.isPlay$
+      .pipe(
+        takeUntil(this._onDestroy),
+        switchMap((isPlay) => {
+          if (isPlay) {
+            return interval(800).pipe(takeUntil(this._onDestroy));
+          }
+          return of();
+        }),
+      )
+      .subscribe((v) => {
+        this._figureService.downFigure();
+      });
   }
 
-  isCellOccupied(figure: FigureView, position: Coordinates): boolean {
-    for (let i = 0; i < figure.length; i++) {
-      for (let j = 0; j < figure[0].length; j++) {
-        if (
-          figure[i][j] &&
-          this._cellService.cells[position.y + i][position.x + j]
-        ) {
-          return false;
-        }
-      }
-    }
-    return true;
+  pause() {
+    this._isPlaySubject.next(false);
   }
 
-  canMove(figure: FigureView | FigureType, position: Coordinates): boolean {
-    if (isFigureType(figure)) {
-      figure = FIGURE_VIEW[figure];
-    }
-    if (this.isAboard(figure, position)) {
-      return false;
-    }
-    return this.isCellOccupied(figure, position);
+  play() {
+    this._isPlaySubject.next(true);
+  }
+
+  ngOnDestroy(): void {
+    this._onDestroy.next();
   }
 }
