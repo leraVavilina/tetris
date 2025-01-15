@@ -21,12 +21,7 @@ export class FieldService {
   private readonly _widthPx = inject(WIDTH_FIELD_PX);
   private readonly _gapPx = inject(GAP_PX);
 
-  readonly minWidth = 10;
-  readonly maxWidth = 13;
-  readonly minHeight = 8;
-  readonly maxHeight = 18;
-
-  private readonly _widthSubject = new BehaviorSubject<number>(7);
+  private readonly _widthSubject = new BehaviorSubject<number>(6);
   private readonly _heightSubject = new BehaviorSubject<number>(8);
   private readonly _cellSubject = new BehaviorSubject<Cell[][]>([]);
 
@@ -51,9 +46,11 @@ export class FieldService {
 
   newField() {
     this._cellSubject.next(
-      Array.from(
-        { length: this.getHeight() },
-        () => new Array(this.getWidth()),
+      Array.from({ length: this._heightSubject.value }, () =>
+        new Array<Cell>(this._widthSubject.value).fill({
+          color: 'default',
+          isFree: true,
+        }),
       ),
     );
   }
@@ -64,14 +61,6 @@ export class FieldService {
 
   setHeight(height: number) {
     this._heightSubject.next(height);
-  }
-
-  getWidth(): number {
-    return this._widthSubject.value;
-  }
-
-  getHeight(): number {
-    return this._heightSubject.value;
   }
 
   isAboard(figure: FigureView, position: Coordinates): boolean {
@@ -86,10 +75,13 @@ export class FieldService {
     );
   }
 
-  isCellOccupied(figure: FigureView, position: Coordinates): boolean {
+  isCellFree(figure: FigureView, position: Coordinates): boolean {
     for (let i = 0; i < figure.length; i++) {
       for (let j = 0; j < figure[0].length; j++) {
-        if (figure[i][j] && this.cells[position.y + i][position.x + j]) {
+        if (
+          figure[i][j] &&
+          !this.cells[position.y + i][position.x + j].isFree
+        ) {
           return false;
         }
       }
@@ -104,7 +96,7 @@ export class FieldService {
     if (this.isAboard(figure, position)) {
       return false;
     }
-    return this.isCellOccupied(figure, position);
+    return this.isCellFree(figure, position);
   }
 
   setFigure(figure: FigureView, color: Color, position: Coordinates) {
@@ -112,9 +104,22 @@ export class FieldService {
     for (let x = 0; x < figure.length; x++) {
       for (let y = 0; y < figure[0].length; y++) {
         if (figure[x][y]) {
-          cells[position.y + x][position.x + y] = { color };
+          cells[position.y + x][position.x + y] = { color, isFree: false };
         }
       }
     }
+    this._checkFillLines();
+  }
+
+  private _checkFillLines() {
+    const cells = this._cellSubject.value;
+    for (let i = 0; i < cells.length; i++) {
+      if (cells[i].every(({ isFree }) => isFree === false)) {
+        for (let j = i; j > 0; j--) {
+          cells[j] = cells[j - 1];
+        }
+      }
+    }
+    this._cellSubject.next(cells);
   }
 }

@@ -4,7 +4,7 @@ import { SettingComponent } from './setting/setting.component';
 import { FieldService } from '../../helpers/field.service';
 import { Size } from '../../model/field.model';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
-import { GameService } from '../../helpers/game.service';
+import { PlayService } from '../../helpers/play.service';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -16,18 +16,18 @@ import { AsyncPipe } from '@angular/common';
 })
 export class ControlGameComponent {
   private readonly _fieldService = inject(FieldService);
-  private readonly _gameService = inject(GameService);
+  private readonly _playService = inject(PlayService);
   private readonly _tuiDialog = inject(TuiDialogService);
-  readonly isPlay$ = this._gameService.isPlay$;
+  readonly isPlay$ = this._playService.isPlay$;
   readonly width$ = this._fieldService.width$;
   readonly height$ = this._fieldService.height$;
 
   pause() {
-    this._gameService.pause();
+    this._playService.isPlay(false);
   }
 
   play() {
-    this._gameService.play();
+    this._playService.isPlay(true);
   }
 
   showDialog() {

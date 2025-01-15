@@ -2,17 +2,17 @@
   class="columns"
   [style.gap.px]="gap"
 >
-  @for (verticalCell of cells$ | async; track $index; let y = $index) {
-    <div
-      class="rows"
-      [style.gap.px]="gap"
-    >
-      @for (horizontalCell of verticalCell; track $index; let x = $index) {
-        <app-cell
-          [color]="horizontalCell?.color ?? 'default'"
-          (mousemove)="setPosition(x, y)"
-        />
-      }
-    </div>
-  }
+  <div
+    *ngFor="let verticalCell of cells$ | async; let y = index"
+    @clearCells
+    class="rows"
+    [style.gap.px]="gap"
+  >
+    @for (horizontalCell of verticalCell; track $index; let x = $index) {
+      <app-cell
+        [color]="horizontalCell?.color ?? 'default'"
+        (mousemove)="setPosition(x, y)"
+      />
+    }
+  </div>
 </div>

@@ -3,26 +3,26 @@
     size="s"
     tuiButton
     type="button"
-    appearance="secondary-destructive"
+    appearance="primary"
     tuiHintAppearance="dark"
     tuiHintDirection="bottom"
-    tuiHint="Возобновить игру"
+    tuiHint="Поставить игру на паузу"
     (click)="pause()"
   >
-    Возобновить
+    Пауза
   </button>
 } @else {
   <button
     size="s"
     tuiButton
     type="button"
-    appearance="primary"
+    appearance="secondary-destructive"
     tuiHintAppearance="dark"
     tuiHintDirection="bottom"
-    tuiHint="Поставить игру на паузу"
+    tuiHint="Возобновить игру"
     (click)="play()"
   >
-    Пауза
+    Возобновить
   </button>
 }
 

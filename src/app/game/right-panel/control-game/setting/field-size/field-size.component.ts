@@ -7,7 +7,13 @@ import { GAP_PX, WIDTH_FIELD_PX } from '../../../../injection-tokens';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TuiButton, TuiDialogContext, TuiNotification } from '@taiga-ui/core';
 import { injectContext } from '@taiga-ui/polymorpheus';
-import { Size } from '../../../../model/field.model';
+import {
+  MAX_HEIGHT_FIELD,
+  MAX_WIDTH_FIELD,
+  MIN_HEIGHT_FIELD,
+  MIN_WIDTH_FIELD,
+  Size,
+} from '../../../../model/field.model';
 
 @Component({
   selector: 'app-field-size',
@@ -37,32 +43,26 @@ export class FieldSizeComponent {
   private readonly _fieldService = inject(FieldService);
   private readonly _context = injectContext<TuiDialogContext<Partial<Size>>>();
 
-  readonly minWidth = this._fieldService.minWidth;
-  readonly maxWidth = this._fieldService.maxWidth;
-  readonly minHeight = this._fieldService.minHeight;
-  readonly maxHeight = this._fieldService.maxHeight;
+  readonly minWidth = MIN_WIDTH_FIELD;
+  readonly maxWidth = MAX_WIDTH_FIELD;
+  readonly minHeight = MIN_HEIGHT_FIELD;
+  readonly maxHeight = MAX_HEIGHT_FIELD;
 
   readonly curWidth = 11; //должно быть в кеше
   readonly curHeight = 7; //должно быть в кеше
 
-  readonly widthControl = this._fb.control<number>(
-    this._fieldService.getWidth(),
-  );
-  readonly heightControl = this._fb.control<number>(
-    this._fieldService.getHeight(),
-  );
+  readonly widthControl = this._fb.control<number>(this.curWidth);
+  readonly heightControl = this._fb.control<number>(this.curHeight);
 
-  readonly widthLabels: number[] = new Array(
-    this._fieldService.maxWidth - this._fieldService.minWidth + 1,
-  )
+  readonly widthLabels: number[] = new Array(this.maxWidth - this.minWidth + 1)
     .fill(0)
-    .map((_, index) => index + this._fieldService.minWidth);
+    .map((_, index) => index + this.minWidth);
 
   readonly heightLabels: number[] = new Array(
-    this._fieldService.maxHeight - this._fieldService.minHeight + 1,
+    this.maxHeight - this.minHeight + 1,
   )
     .fill(0)
-    .map((_, index) => index + this._fieldService.minHeight);
+    .map((_, index) => index + this.minHeight);
 
   constructor() {
     this.widthControl.valueChanges

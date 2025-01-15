@@ -1,18 +1,25 @@
-import { Component, inject, input, Output } from '@angular/core';
+import { Component, inject, Output } from '@angular/core';
 import { CellComponent } from '../cell/cell.component';
 import { GAP_PX } from '../../injection-tokens';
-import { Color } from '../../model/color.model';
 import { Coordinates } from '../../model/cell.model';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { distinctUntilChanged, Subject } from 'rxjs';
 import { FieldService } from '../../helpers/field.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-field',
   standalone: true,
-  imports: [CellComponent, AsyncPipe],
+  imports: [CellComponent, AsyncPipe, NgFor],
   templateUrl: './field.component.html',
   styleUrl: './field.component.scss',
+  animations: [
+    trigger('clearCells', [
+      transition(':leave', [
+        animate('0.2s', style({ scale: '0 100%', translate: '-1000px' })),
+      ]),
+    ]),
+  ],
 })
 export class FieldComponent {
   private readonly _fieldService = inject(FieldService);

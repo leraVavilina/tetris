@@ -1,17 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { FieldComponent } from './components/field/field.component';
-import { GameService } from './helpers/game.service';
+import { PlayService } from './helpers/play.service';
 import { RightPanelComponent } from './right-panel/right-panel.component';
 import { WIDTH_FIELD_PX, GAP_PX } from './injection-tokens';
 import { FigureComponent } from './components/figure/figure.component';
 import { FieldService } from './helpers/field.service';
 import { TranslateFigureDirective } from './helpers/action/translate-figure.component';
 import { Coordinates } from './model/cell.model';
-import { DEFAULT_POSITION } from './model/figure.consts';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
 import { ActionFigureDirective } from './helpers/action/action-figure.component';
 import { filter, map } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-game',
@@ -25,7 +25,7 @@ import { filter, map } from 'rxjs';
     ActionFigureDirective,
   ],
   providers: [
-    GameService,
+    PlayService,
     FieldService,
     FigureService,
     {
@@ -42,15 +42,22 @@ import { filter, map } from 'rxjs';
 })
 export class GameComponent {
   private readonly _figureService = inject(FigureService);
+  private readonly _playService = inject(PlayService);
   readonly figure$ = this._figureService.figureView$;
   readonly color$ = this._figureService.figure$.pipe(
     filter((figure) => figure !== undefined),
     map(({ color }) => color),
   );
-  readonly fieldPosition = signal<Coordinates>(DEFAULT_POSITION);
+  readonly isPlay = toSignal(this._playService.isPlay$);
+  readonly fieldPosition = signal<Coordinates>(
+    this._figureService.getDefaultPosition(),
+  );
+  readonly isGameOver$ = this._playService.isGameOver$;
 
   setPosition(position: Coordinates) {
-    this.fieldPosition.set(position);
-    this._figureService.setPosition(position);
+    if (this.isPlay()) {
+      this.fieldPosition.set(position);
+      this._figureService.horizontalMove(position.x);
+    }
   }
 }

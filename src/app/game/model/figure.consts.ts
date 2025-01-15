@@ -1,4 +1,3 @@
-import { Coordinates } from './cell.model';
 import { Color } from './color.model';
 
 export const FIGURE_VIEW: Record<FigureType, FigureView> = {
@@ -37,8 +36,6 @@ export function isFigureType(view: any): view is FigureType {
   }
   return false;
 }
-
-export const DEFAULT_POSITION: Coordinates = { x: 0, y: 0 };
 
 export type FigureView = (0 | 1)[][];
 export const FigureType = ['O', 'I', 'S', 'Z', 'L', 'J', 'T'] as const;

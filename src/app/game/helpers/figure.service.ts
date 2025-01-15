@@ -3,7 +3,6 @@ import { Coordinates } from '../model/cell.model';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  DEFAULT_POSITION,
   Figure,
   FIGURE_VIEW,
   FigureType,
@@ -16,7 +15,7 @@ import { FieldService } from './field.service';
 export class FigureService {
   private readonly _fieldService = inject(FieldService);
   private readonly _positionSubject = new BehaviorSubject<Coordinates>(
-    DEFAULT_POSITION,
+    this.getDefaultPosition(),
   );
   private readonly _figureSubject = new BehaviorSubject<Figure | undefined>(
     undefined,
@@ -48,6 +47,14 @@ export class FigureService {
     ]);
   }
 
+  getDefaultPosition(): Coordinates {
+    return { x: Math.floor(this._fieldService.cells[0].length / 2) - 1, y: 0 };
+  }
+
+  getPosition(): Coordinates {
+    return this._positionSubject.value;
+  }
+
   setPosition(position: Coordinates) {
     const view = this._figureViewSubject.value;
     if (!view) {
@@ -62,7 +69,9 @@ export class FigureService {
     if (newPosition.y > lastIndexY) {
       newPosition.y = lastIndexY;
     }
-    this._positionSubject.next(newPosition);
+    if (this._fieldService.canMove(view, newPosition)) {
+      this._positionSubject.next(newPosition);
+    }
   }
 
   rotate() {
@@ -79,10 +88,12 @@ export class FigureService {
         result[view[0].length - x - 1][y] = view[y][x];
       }
     }
-    this._figureViewSubject.next(result);
+    if (this._fieldService.canMove(result, this._positionSubject.value)) {
+      this._figureViewSubject.next(result);
+    }
   }
 
-  generateNewFigure() {
+  setNextFigure() {
     const next = this._nextFigureSubject.value;
     if (!next.length) {
       return;
@@ -92,36 +103,48 @@ export class FigureService {
     next.push(this._randomFigure());
   }
 
+  horizontalMove(x: number) {
+    const { y } = this._positionSubject.value;
+    this.setPosition({ x, y });
+  }
+
   downFigure() {
     const curPosition = this._positionSubject.value;
     const view = this._figureViewSubject.value;
-    const curFigure = this._figureSubject.value;
-    if (!view || !curFigure) {
-      return;
+    4;
+    const newPosition = {
+      x: curPosition.x,
+      y: curPosition.y + 1,
+    };
+    if (!view) {
+      throw new Error('figure is undefined');
     }
-    if (
-      !this._fieldService.canMove(view, {
-        x: curPosition.x,
-        y: curPosition.y + 1,
-      })
-    ) {
-      this._positionSubject.next({
-        x: curPosition.x,
-        y: 0,
-      });
-      this._fieldService.setFigure(view, curFigure.color, curPosition);
-      this.generateNewFigure();
+    if (!this._fieldService.canMove(view, newPosition)) {
+      this.setFigure();
+      this._positionSubject.next(this.getDefaultPosition());
+      this.setNextFigure();
     } else {
-      this._positionSubject.next({
-        x: curPosition.x,
-        y: curPosition.y + 1,
-      });
+      this._positionSubject.next(newPosition);
     }
   }
 
+  setFigure() {
+    const view = this._figureViewSubject.value;
+    const curFigure = this._figureSubject.value;
+    if (!view || !curFigure) {
+      throw new Error('figure is undefined');
+    }
+    this._fieldService.setFigure(
+      view,
+      curFigure.color,
+      this._positionSubject.value,
+    );
+  }
+
   private _randomFigure(): Figure {
-    const type = FigureType[Math.floor(Math.random() * FigureType.length)];
-    const color = Color[Math.floor(Math.random() * (Color.length - 1))];
+    const nextFigure = this._nextFigureSubject.value;
+    let color = Color[Math.floor(Math.random() * (Color.length - 1))];
+    let type = FigureType[Math.floor(Math.random() * FigureType.length)];
 
     return { type, color };
   }

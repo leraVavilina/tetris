@@ -18,4 +18,20 @@ $sideMargin: 20px;
     top: 0px;
     left: 0px;
   }
+
+  .game-over {
+    animation-name: opacity-animation;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes opacity-animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.3;
+  }
 }

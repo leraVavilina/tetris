@@ -2,6 +2,7 @@
   <app-field
     [appActionFigure]="fieldPosition()"
     (hoverPosition)="setPosition($event)"
+    [class.game-over]="isGameOver$ | async"
   />
   @if (figure$ | async; as figure) {
     <app-figure
