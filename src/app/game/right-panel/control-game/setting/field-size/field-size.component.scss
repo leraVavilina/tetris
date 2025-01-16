@@ -1,9 +1,19 @@
 :host {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin: 15px 0px;
-  min-height: 200px;
   box-sizing: border-box;
+}
+
+.setting {
+  display: grid;
+  grid-template-columns: 60px 230px;
+  grid-template-rows: 60px auto;
+  grid-template-areas:
+    'width width'
+    'height field';
+  margin-bottom: 40px;
 }
 
 .ticks-labels {
@@ -11,25 +21,18 @@
   justify-content: space-between;
 }
 
-.tick-label {
-  display: block;
-  width: 10px;
-  cursor: pointer;
-}
-
 .width {
   width: 250px;
-  margin-left: 50px;
   height: 0px;
+  grid-area: width;
+  transform: translate(60px, 0px);
 }
 
 .height {
-  position: absolute;
-  left: -160px;
-  top: 140px;
   width: 230px;
-  height: 230px;
-  transform: rotate(90deg);
+  height: 50px;
+  transform: translate(-90px, 90px) rotate(90deg);
+  grid-area: height;
   .tick-label {
     transform: rotate(-90deg);
   }
@@ -42,14 +45,11 @@
 
 .field {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-self: center;
-  margin: 30px;
-  margin-top: 60px;
   min-height: 230px;
+  grid-area: field;
 }
 
-button {
-  margin-top: 20px;
+.submit {
+  margin: 20px 0px;
 }

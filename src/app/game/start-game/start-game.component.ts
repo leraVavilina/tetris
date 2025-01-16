@@ -3,6 +3,7 @@ import {
   TuiAppearance,
   TuiButton,
   TuiDialogService,
+  TuiNotification,
   TuiTitle,
 } from '@taiga-ui/core';
 import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
@@ -11,10 +12,20 @@ import { Size } from '../model/field.model';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { SettingComponent } from '../right-panel/control-game/setting/setting.component';
 import { FieldService } from '../helpers/field.service';
+import { AsyncPipe } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-start-game',
-  imports: [TuiCardLarge, TuiHeader, TuiTitle, TuiAppearance, TuiButton],
+  imports: [
+    TuiCardLarge,
+    TuiHeader,
+    TuiTitle,
+    TuiAppearance,
+    TuiButton,
+    TuiNotification,
+    AsyncPipe,
+  ],
   templateUrl: './start-game.component.html',
   styleUrl: './start-game.component.scss',
 })
@@ -23,7 +34,7 @@ export class StartGameComponent {
   private readonly _tuiDialog = inject(TuiDialogService);
   private readonly _fieldService = inject(FieldService);
 
-  constructor() {}
+  readonly score$ = this._fieldService.score$;
 
   startGame() {
     this._playService.start();
@@ -36,6 +47,7 @@ export class StartGameComponent {
         closeable: false,
         size: 's',
       })
+      .pipe(take(1))
       .subscribe(({ width, height }) => {
         width && this._fieldService.setWidth(width);
         height && this._fieldService.setHeight(height);

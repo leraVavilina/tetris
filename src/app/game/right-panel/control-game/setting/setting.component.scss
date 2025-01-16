@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  min-height: 550px;
+}
+
 app-tetris-fall {
   pointer-events: none;
   position: absolute;

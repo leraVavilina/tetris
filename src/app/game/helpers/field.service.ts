@@ -40,7 +40,9 @@ export class FieldService {
   constructor() {
     combineLatest([this.height$, this.width$])
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.newField());
+      .subscribe(() => {
+        this.newField();
+      });
 
     this.width$
       .pipe(
@@ -64,6 +66,7 @@ export class FieldService {
         }),
       ),
     );
+    this._scoreSubject.next(0);
   }
 
   setWidth(width: number) {

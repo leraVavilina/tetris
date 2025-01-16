@@ -24,12 +24,12 @@ export class PlayService implements OnDestroy {
   private _scoreForSpeed = 7;
   private _minSpeed = 300;
 
-  private readonly _isPlaySubject = new BehaviorSubject<boolean>(false);
+  private readonly _isPlaySubject = new BehaviorSubject<boolean>(true);
   private readonly _speedSubject = new BehaviorSubject<number>(
     this._defaultSpeed,
   );
   private readonly _onDestroy = new Subject<void>();
-  private readonly _isGameOverSubject = new BehaviorSubject<boolean>(false);
+  private readonly _isGameOverSubject = new BehaviorSubject<boolean>(true);
 
   readonly speed$ = this._speedSubject.asObservable();
   readonly isPlay$ = this._isPlaySubject.asObservable();
@@ -43,7 +43,10 @@ export class PlayService implements OnDestroy {
           if (isPlay) {
             return this._speedSubject.pipe(
               switchMap((speed) =>
-                interval(speed).pipe(takeUntil(this._onDestroy)),
+                interval(speed).pipe(
+                  filter(() => !this._isGameOverSubject.value),
+                  takeUntil(this._onDestroy),
+                ),
               ),
             );
           }
@@ -82,8 +85,6 @@ export class PlayService implements OnDestroy {
         this._speedSubject.next(newSpeed);
       }
     });
-
-    this.start();
   }
 
   speedUp(coef: number) {

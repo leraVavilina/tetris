@@ -6,8 +6,17 @@
     <span tuiTitle>Тетрис</span>
   </div>
 
+  @if (score$ | async; as score) {
+    <tui-notification
+      appearance="outline-grayscale"
+      size="l"
+    >
+      Поздравляем! Вы набрали {{ score }} очков!
+    </tui-notification>
+  }
+
   <button
-    appearance="floating"
+    appearance="primary"
     tuiButton
     type="button"
     (click)="startGame()"

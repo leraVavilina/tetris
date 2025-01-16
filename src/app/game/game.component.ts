@@ -9,12 +9,13 @@ import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
 import { ActionFigureDirective } from './helpers/action/action-figure.directive';
 import { combineLatest, filter, map } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { StartGameComponent } from './start-game/start-game.component';
 import { RestartGameComponent } from './restart-game/restart-game.component';
 import { FigureCanvasComponent } from './components/canvas/figure/figure-canvas.component';
 import { FieldCanvasComponent } from './components/canvas/field/field-canvas.component';
 import { HoverPositionDirective } from './helpers/action/hover-position.directive';
+import { getSizeFromStorage } from './helpers/get-size-from-storage';
 
 @Component({
   selector: 'app-game',
@@ -69,6 +70,19 @@ export class GameComponent {
       this._fieldService.lowestPosition(view!, position),
     ),
   );
+
+  constructor() {
+    const { width, height } = getSizeFromStorage();
+    this._fieldService.setHeight(height);
+    this._fieldService.setWidth(width);
+
+    combineLatest([this._fieldService.height$, this._fieldService.width$])
+      .pipe(takeUntilDestroyed())
+      .subscribe(([height, width]) => {
+        localStorage.setItem('width', width.toString());
+        localStorage.setItem('height', height.toString());
+      });
+  }
 
   setPosition(position: Coordinates) {
     if (this.isPlay()) {

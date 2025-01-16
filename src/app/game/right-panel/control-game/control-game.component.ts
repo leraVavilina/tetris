@@ -6,6 +6,7 @@ import { Size } from '../../model/field.model';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { PlayService } from '../../helpers/play.service';
 import { AsyncPipe } from '@angular/common';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-control-game',
@@ -22,6 +23,10 @@ export class ControlGameComponent {
   readonly width$ = this._fieldService.width$;
   readonly height$ = this._fieldService.height$;
 
+  constructor() {
+    this.showDialog();
+  }
+
   pause() {
     this._playService.isPlay(false);
   }
@@ -37,6 +42,7 @@ export class ControlGameComponent {
         closeable: false,
         size: 's',
       })
+      .pipe(take(1))
       .subscribe(({ width, height }) => {
         width && this._fieldService.setWidth(width);
         height && this._fieldService.setHeight(height);

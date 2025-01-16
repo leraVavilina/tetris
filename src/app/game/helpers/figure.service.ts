@@ -111,7 +111,7 @@ export class FigureService {
       y: curPosition.y + 1,
     };
     if (!view) {
-      throw new Error('figure is undefined');
+      return;
     }
     if (!this._fieldService.canMove(view, newPosition)) {
       this.setFigure();
@@ -125,7 +125,7 @@ export class FigureService {
   putFigure() {
     const view = this._figureViewSubject.value;
     if (!view) {
-      throw new Error('figure is undefined');
+      return;
     }
     const position = this._fieldService.lowestPosition(
       view,
@@ -142,7 +142,7 @@ export class FigureService {
     const view = this._figureViewSubject.value;
     const curFigure = this._figureSubject.value;
     if (!view || !curFigure) {
-      throw new Error('figure is undefined');
+      return;
     }
     this._fieldService.setFigure(
       view,

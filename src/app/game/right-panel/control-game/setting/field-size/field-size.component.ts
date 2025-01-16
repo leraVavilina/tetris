@@ -14,6 +14,7 @@ import {
   Size,
 } from '../../../../model/field.model';
 import { FieldCanvasComponent } from '../../../../components/canvas/field/field-canvas.component';
+import { getSizeFromStorage } from '../../../../helpers/get-size-from-storage';
 
 @Component({
   selector: 'app-field-size',
@@ -48,11 +49,8 @@ export class FieldSizeComponent {
   readonly minHeight = MIN_HEIGHT_FIELD;
   readonly maxHeight = MAX_HEIGHT_FIELD;
 
-  readonly curWidth = 11; //должно быть в кеше
-  readonly curHeight = 7; //должно быть в кеше
-
-  readonly widthControl = this._fb.control<number>(this.curWidth);
-  readonly heightControl = this._fb.control<number>(this.curHeight);
+  readonly widthControl = this._fb.control<number>(MIN_WIDTH_FIELD);
+  readonly heightControl = this._fb.control<number>(MIN_HEIGHT_FIELD);
 
   readonly widthLabels: number[] = new Array(this.maxWidth - this.minWidth + 1)
     .fill(0)
@@ -72,12 +70,9 @@ export class FieldSizeComponent {
       .pipe(takeUntilDestroyed())
       .subscribe((height) => height && this._fieldService.setHeight(height));
 
-    effect(() => {
-      this.widthControl.setValue(this.curWidth);
-    });
-    effect(() => {
-      this.heightControl.setValue(this.curHeight);
-    });
+    const { width, height } = getSizeFromStorage();
+    this.widthControl.setValue(width);
+    this.heightControl.setValue(height);
   }
 
   submit() {

@@ -22,7 +22,7 @@ import { FigureCanvasComponent } from '../../game/components/canvas/figure/figur
     },
     {
       provide: WIDTH_FIELD_PX,
-      useValue: 50,
+      useValue: 100,
     },
   ],
   templateUrl: './tetris-fall.component.html',
@@ -38,7 +38,7 @@ export class TetrisFallComponent implements AfterViewInit {
     const result: { top: number; left: number; speed: number }[] = [];
     for (let i = 0; i < this.count(); i++) {
       result.push({
-        top: this._randomTop(),
+        top: Math.floor(Math.random() * -1000),
         left: this._randomLeft(),
         speed: 10,
       });

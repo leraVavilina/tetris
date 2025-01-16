@@ -1,7 +1,7 @@
 @if (isGameOver$ | async) {
-  <app-restart-game />
-} @else if (!isPlay()) {
   <app-start-game />
+} @else if (!isPlay()) {
+  <app-restart-game />
 }
 
 <div class="field">
@@ -33,6 +33,4 @@
   }
 </div>
 
-@if ((isGameOver$ | async) !== isPlay()) {
-  <app-right-panel />
-}
+<app-right-panel />
