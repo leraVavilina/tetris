@@ -18,21 +18,14 @@ import { Speed, SPEED_MAP } from '../model/game.model';
 export class PlayService implements OnDestroy {
   private readonly _figureService = inject(FigureService);
   private readonly _fieldService = inject(FieldService);
-  private readonly _isPlaySubject = new BehaviorSubject<boolean>(true);
+  private readonly _isPlaySubject = new BehaviorSubject<boolean>(false);
   private readonly _speedSubject = new BehaviorSubject<Speed>('default');
   private readonly _onDestroy = new Subject<void>();
+  private readonly _isGameOverSubject = new BehaviorSubject<boolean>(false);
 
   readonly speed$ = this._speedSubject.asObservable();
   readonly isPlay$ = this._isPlaySubject.asObservable();
-  readonly isGameOver$ = this._figureService.figure$.pipe(
-    filter((figure) => !!figure),
-    map((figure) => {
-      return !this._fieldService.canMove(
-        FIGURE_VIEW[figure.type],
-        this._figureService.getDefaultPosition(),
-      );
-    }),
-  );
+  readonly isGameOver$ = this._isGameOverSubject.asObservable();
 
   constructor() {
     this.isPlay$
@@ -53,11 +46,25 @@ export class PlayService implements OnDestroy {
         this._figureService.downFigure();
       });
 
-    this.isGameOver$.subscribe((isOver) => {
-      if (isOver) {
-        this._isPlaySubject.next(false);
-      }
-    });
+    this._figureService.figure$
+      .pipe(
+        takeUntil(this._onDestroy),
+        filter((figure) => !!figure),
+        map((figure) => {
+          return !this._fieldService.canMove(
+            FIGURE_VIEW[figure.type],
+            this._figureService.getDefaultPosition(),
+          );
+        }),
+      )
+      .subscribe((isOver) => {
+        if (isOver) {
+          this._isPlaySubject.next(false);
+          this._isGameOverSubject.next(true);
+        }
+      });
+
+    this.start();
   }
 
   setSpeed(speed: Speed) {
@@ -66,6 +73,13 @@ export class PlayService implements OnDestroy {
 
   isPlay(isPlay: boolean) {
     this._isPlaySubject.next(isPlay);
+  }
+
+  start() {
+    this._isPlaySubject.next(true);
+    this._isGameOverSubject.next(false);
+    this._fieldService.newField();
+    this._figureService.newGame();
   }
 
   ngOnDestroy(): void {

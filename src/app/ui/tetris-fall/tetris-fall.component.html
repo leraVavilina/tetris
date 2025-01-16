@@ -1,0 +1,7 @@
+@for (figure of randomFigure(); track $index; let index = $index) {
+  <app-figure
+    [figure]="figure.type"
+    [color]="figure.color"
+    [style.transform]="getTranslate(index)"
+  />
+}

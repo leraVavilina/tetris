@@ -17,10 +17,14 @@ export class CellComponent {
 
   readonly color = input<Color>('default');
   readonly colorValue = computed<string>(() => COLOR_MAP[this.color()]);
+  readonly backgroundColor = computed<string>(() =>
+    this.isDotted() ? COLOR_MAP.default : this.colorValue(),
+  );
   readonly isVisible = input<Visibility, boolean>('visible', {
     transform: (isVisible) =>
       isVisible
         ? ('visible' satisfies Visibility)
         : ('hidden' satisfies Visibility),
   });
+  readonly isDotted = input<boolean>(false);
 }

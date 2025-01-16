@@ -2,14 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { Coordinates } from '../model/cell.model';
 import { BehaviorSubject, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  Figure,
-  FIGURE_VIEW,
-  FigureType,
-  FigureView,
-} from '../model/figure.consts';
-import { Color } from '../model/color.model';
+import { Figure, FIGURE_VIEW, FigureView } from '../model/figure.consts';
 import { FieldService } from './field.service';
+import { generateFigure } from './generate-figure';
 
 @Injectable()
 export class FigureService {
@@ -38,13 +33,11 @@ export class FigureService {
     this._figureSubject.pipe(takeUntilDestroyed()).subscribe((figure) => {
       figure && this._figureViewSubject.next(FIGURE_VIEW[figure.type]);
     });
+  }
 
-    this._figureSubject.next(this._randomFigure());
-    this._nextFigureSubject.next([
-      this._randomFigure(),
-      this._randomFigure(),
-      this._randomFigure(),
-    ]);
+  newGame() {
+    this._figureSubject.next(generateFigure(1)[0]);
+    this._nextFigureSubject.next(generateFigure(10));
   }
 
   getDefaultPosition(): Coordinates {
@@ -100,7 +93,9 @@ export class FigureService {
     }
     const figure = next.shift();
     this._figureSubject.next(figure);
-    next.push(this._randomFigure());
+    if (next.length <= 3) {
+      next.push(...generateFigure(10));
+    }
   }
 
   horizontalMove(x: number) {
@@ -139,13 +134,5 @@ export class FigureService {
       curFigure.color,
       this._positionSubject.value,
     );
-  }
-
-  private _randomFigure(): Figure {
-    const nextFigure = this._nextFigureSubject.value;
-    let color = Color[Math.floor(Math.random() * (Color.length - 1))];
-    let type = FigureType[Math.floor(Math.random() * FigureType.length)];
-
-    return { type, color };
   }
 }

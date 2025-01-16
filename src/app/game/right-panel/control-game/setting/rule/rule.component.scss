@@ -1,0 +1,16 @@
+:host {
+  display: grid;
+  grid-template-columns: 150px auto;
+  align-items: center;
+  font: var(--tui-font-text-ui-l);
+  margin: 15px 5px;
+}
+
+app-tetris-fall {
+  pointer-events: none;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+}

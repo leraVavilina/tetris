@@ -13,13 +13,15 @@
   @if (next$ | async; as next) {
     <div class="title">Следующие:</div>
     <div class="next">
-      @for (figure of next; track $index) {
-        <app-figure
-          [color]="figure.color"
-          [figure]="figure.type"
-          [style.height.px]="height | async"
-          [style.width.px]="width"
-        ></app-figure>
+      @for (figure of next; track $index; let index = $index) {
+        @if (index < 3) {
+          <app-figure
+            [color]="figure.color"
+            [figure]="figure.type"
+            [style.height.px]="height | async"
+            [style.width.px]="width"
+          ></app-figure>
+        }
       }
     </div>
   }

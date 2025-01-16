@@ -4,7 +4,6 @@
 >
   <div
     *ngFor="let verticalCell of cells$ | async; let y = index"
-    @clearCells
     class="rows"
     [style.gap.px]="gap"
   >

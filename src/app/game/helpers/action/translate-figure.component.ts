@@ -1,27 +1,24 @@
-import { computed, Directive, HostBinding, inject } from '@angular/core';
+import { computed, Directive, HostBinding, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { GAP_PX } from '../../injection-tokens';
-import { FigureService } from '../figure.service';
 import { FieldService } from '../field.service';
+import { Coordinates } from '../../model/cell.model';
 
 @Directive({ selector: '[appTranslateFigure]', standalone: true })
 export class TranslateFigureDirective {
   private readonly _cellSize = toSignal(inject(FieldService).cellSize$);
-  private readonly _figureService = inject(FigureService);
   private readonly _gap = inject(GAP_PX);
 
-  private readonly _position = toSignal(this._figureService.position$);
-  private readonly _figure = toSignal(this._figureService.figureView$);
+  readonly position = input.required<Coordinates>();
 
   @HostBinding('style.transform') get getTranslate(): string {
     return this._translate();
   }
 
   private readonly _translate = computed(() => {
-    const position = this._position();
+    const position = this.position();
     const cellSize = this._cellSize();
-    const figure = this._figure();
-    if (!position || !cellSize || !figure) {
+    if (!cellSize) {
       return '';
     }
     const x = this._positionToPixel(position.x, cellSize);

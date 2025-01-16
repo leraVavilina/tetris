@@ -28,4 +28,5 @@ export class FigureComponent {
     },
   });
   readonly color = input.required<Color>();
+  readonly isDotted = input<boolean>(false);
 }

@@ -1,16 +1,36 @@
+@if (isGameOver$ | async) {
+  <app-restart-game />
+} @else if (!isPlay()) {
+  <app-start-game />
+}
+
 <div class="field">
   <app-field
     [appActionFigure]="fieldPosition()"
-    (hoverPosition)="setPosition($event)"
     [class.game-over]="isGameOver$ | async"
+    (hoverPosition)="setPosition($event)"
   />
   @if (figure$ | async; as figure) {
+    @if (lowestPosition$ | async; as position) {
+      <app-figure
+        appTranslateFigure
+        class="figure"
+        [color]="(color$ | async) ?? 'default'"
+        [figure]="figure"
+        [position]="position"
+        [isDotted]="true"
+      />
+    }
     <app-figure
       appTranslateFigure
       class="figure"
       [color]="(color$ | async) ?? 'default'"
       [figure]="figure"
+      [position]="(position$ | async)!"
     />
   }
 </div>
-<app-right-panel />
+
+@if ((isGameOver$ | async) !== isPlay()) {
+  <app-right-panel />
+}

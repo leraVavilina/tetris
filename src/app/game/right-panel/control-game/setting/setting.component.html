@@ -1,4 +1,11 @@
+<app-tetris-fall></app-tetris-fall>
 <tui-tabs [(activeItemIndex)]="activeTab">
+  <button
+    tuiTab
+    type="button"
+  >
+    Правила игры
+  </button>
   <button
     tuiTab
     type="button"
@@ -11,19 +18,13 @@
   >
     Управление
   </button>
-  <button
-    tuiTab
-    type="button"
-  >
-    Правила игры
-  </button>
 </tui-tabs>
 
 @switch (activeTab()) {
   @case (0) {
-    <app-field-size />
-  }
-  @case (2) {
     <app-rule />
+  }
+  @case (1) {
+    <app-field-size />
   }
 }

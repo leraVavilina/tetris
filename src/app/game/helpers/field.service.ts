@@ -21,8 +21,8 @@ export class FieldService {
   private readonly _widthPx = inject(WIDTH_FIELD_PX);
   private readonly _gapPx = inject(GAP_PX);
 
-  private readonly _widthSubject = new BehaviorSubject<number>(6);
-  private readonly _heightSubject = new BehaviorSubject<number>(8);
+  private readonly _widthSubject = new BehaviorSubject<number>(10);
+  private readonly _heightSubject = new BehaviorSubject<number>(18);
   private readonly _cellSubject = new BehaviorSubject<Cell[][]>([]);
 
   readonly width$ = this._widthSubject.pipe(distinctUntilChanged());
@@ -45,6 +45,7 @@ export class FieldService {
   }
 
   newField() {
+    // !!!!!! each slot in the array will reference that object
     this._cellSubject.next(
       Array.from({ length: this._heightSubject.value }, () =>
         new Array<Cell>(this._widthSubject.value).fill({

@@ -10,8 +10,10 @@ import { Coordinates } from './model/cell.model';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
 import { ActionFigureDirective } from './helpers/action/action-figure.component';
-import { filter, map } from 'rxjs';
+import { combineLatest, filter, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { StartGameComponent } from './start-game/start-game.component';
+import { RestartGameComponent } from './restart-game/restart-game.component';
 
 @Component({
   selector: 'app-game',
@@ -23,6 +25,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
     TranslateFigureDirective,
     AsyncPipe,
     ActionFigureDirective,
+    StartGameComponent,
+    RestartGameComponent,
   ],
   providers: [
     PlayService,
@@ -43,6 +47,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class GameComponent {
   private readonly _figureService = inject(FigureService);
   private readonly _playService = inject(PlayService);
+  private readonly _fieldService = inject(FieldService);
   readonly figure$ = this._figureService.figureView$;
   readonly color$ = this._figureService.figure$.pipe(
     filter((figure) => figure !== undefined),
@@ -53,6 +58,18 @@ export class GameComponent {
     this._figureService.getDefaultPosition(),
   );
   readonly isGameOver$ = this._playService.isGameOver$;
+  readonly position$ = this._figureService.position$;
+  readonly lowestPosition$ = combineLatest([this.figure$, this.position$]).pipe(
+    filter(([view]) => view !== undefined),
+    map(([view, position]) => {
+      const test = { x: position.x, y: position.y };
+      while (this._fieldService.canMove(view!, test)) {
+        test.y++;
+      }
+      test.y--;
+      return test;
+    }),
+  );
 
   setPosition(position: Coordinates) {
     if (this.isPlay()) {
