@@ -1,28 +1,26 @@
-<div class="island">
-  @if (current$ | async; as current) {
-    <div class="title">Текущее:</div>
-    <div class="figure">
-      <app-figure
-        [color]="current.color"
-        [figure]="current.type"
-        [style.height.px]="height | async"
-        [style.width.px]="width"
-      ></app-figure>
-    </div>
-  }
-  @if (next$ | async; as next) {
-    <div class="title">Следующее:</div>
-    <div class="next">
-      @for (figure of next; track $index; let index = $index) {
-        @if (index < 3) {
-          <app-figure
-            [color]="figure.color"
-            [figure]="figure.type"
-            [style.height.px]="height | async"
-            [style.width.px]="width"
-          ></app-figure>
-        }
+@if (current$ | async; as current) {
+  <div class="title">Текущее:</div>
+  <div class="figure">
+    <app-figure-canvas
+      [color]="current.color"
+      [figure]="current.type"
+      [style.height.px]="height | async"
+      [style.width.px]="width"
+    ></app-figure-canvas>
+  </div>
+}
+@if (next$ | async; as next) {
+  <div class="title">Следующее:</div>
+  <div class="next">
+    @for (figure of next; track $index; let index = $index) {
+      @if (index < 3) {
+        <app-figure-canvas
+          [color]="figure.color"
+          [figure]="figure.type"
+          [style.height.px]="height | async"
+          [style.width.px]="width"
+        ></app-figure-canvas>
       }
-    </div>
-  }
-</div>
+    }
+  </div>
+}

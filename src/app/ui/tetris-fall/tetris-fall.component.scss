@@ -3,11 +3,12 @@
   height: 100%;
 }
 
-app-figure {
+app-figure-canvas {
   position: absolute;
   z-index: 0;
-  top: 0;
+  top: 0px;
   left: 0;
   bottom: 0;
   opacity: 0.5;
+  transform: translate(-100px, -100px);
 }

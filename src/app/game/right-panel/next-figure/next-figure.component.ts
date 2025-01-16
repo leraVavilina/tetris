@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FigureComponent } from '../../components/figure/figure.component';
 import { GAP_PX, WIDTH_FIELD_PX } from '../../injection-tokens';
 import { FieldService } from '../../helpers/field.service';
 import { combineLatest, map } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { FigureService } from '../../helpers/figure.service';
+import { FigureCanvasComponent } from '../../components/canvas/figure/figure-canvas.component';
 
 @Component({
   selector: 'app-next-figure',
   standalone: true,
-  imports: [FigureComponent, AsyncPipe],
+  imports: [FigureCanvasComponent, AsyncPipe],
   providers: [
     FieldService,
     {

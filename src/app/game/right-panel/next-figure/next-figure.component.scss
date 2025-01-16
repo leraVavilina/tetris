@@ -1,12 +1,6 @@
 :host {
-  display: block;
-}
-
-.island {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
 }
 
 .title {
@@ -17,6 +11,7 @@
 .figure {
   display: flex;
   align-items: center;
+  align-self: center;
 }
 
 .next {
@@ -24,9 +19,10 @@
   flex-direction: column;
   gap: 10px;
   margin-bottom: 5px;
+  align-self: center;
 }
 
-app-figure {
+app-figure-canvas {
   display: flex;
   align-items: center;
   justify-content: center;

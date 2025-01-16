@@ -21,20 +21,17 @@ export class FieldService {
   private readonly _widthPx = inject(WIDTH_FIELD_PX);
   private readonly _gapPx = inject(GAP_PX);
 
-  private readonly _widthSubject = new BehaviorSubject<number>(6);
-  private readonly _heightSubject = new BehaviorSubject<number>(10);
+  private readonly _widthSubject = new BehaviorSubject<number>(10);
+  private readonly _heightSubject = new BehaviorSubject<number>(18);
   private readonly _cellSubject = new BehaviorSubject<Cell[][]>([]);
   private readonly _scoreSubject = new BehaviorSubject<number>(0);
+  private readonly _cellSizeSubject = new BehaviorSubject<number>(0);
 
   readonly score$ = this._scoreSubject.asObservable();
   readonly width$ = this._widthSubject.pipe(distinctUntilChanged());
   readonly height$ = this._heightSubject.pipe(distinctUntilChanged());
   readonly cells$ = this._cellSubject.asObservable();
-  readonly cellSize$ = this.width$.pipe(
-    map((width) => {
-      return Math.floor((this._widthPx - (width - 1) * this._gapPx) / width);
-    }),
-  );
+  readonly cellSize$ = this._cellSizeSubject.asObservable();
 
   get cells(): Cell[][] {
     return this._cellSubject.value;
@@ -44,6 +41,17 @@ export class FieldService {
     combineLatest([this.height$, this.width$])
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.newField());
+
+    this.width$
+      .pipe(
+        map((width) => {
+          return Math.floor(
+            (this._widthPx - (width - 1) * this._gapPx) / width,
+          );
+        }),
+      )
+      .pipe(takeUntilDestroyed())
+      .subscribe((cellSize) => this._cellSizeSubject.next(cellSize));
   }
 
   newField() {
@@ -121,6 +129,14 @@ export class FieldService {
     }
     test.y--;
     return test;
+  }
+
+  positionToPixel(position: number): number {
+    return this._cellSizeSubject.value * position + this._gapPx * position;
+  }
+
+  pixelToPosition(px: number): number {
+    return Math.floor(px / (this._cellSizeSubject.value + this._gapPx));
   }
 
   private _checkFillLines() {

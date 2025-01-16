@@ -6,14 +6,14 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { FigureComponent } from '../../game/components/figure/figure.component';
 import { GAP_PX, WIDTH_FIELD_PX } from '../../game/injection-tokens';
 import { FieldService } from '../../game/helpers/field.service';
 import { generateFigure } from '../../game/helpers/generate-figure';
+import { FigureCanvasComponent } from '../../game/components/canvas/figure/figure-canvas.component';
 
 @Component({
   selector: 'app-tetris-fall',
-  imports: [FigureComponent],
+  imports: [FigureCanvasComponent],
   providers: [
     FieldService,
     {

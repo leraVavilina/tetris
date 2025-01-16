@@ -1,32 +1,34 @@
 import { Component, inject, signal } from '@angular/core';
-import { FieldComponent } from './components/field/field.component';
 import { PlayService } from './helpers/play.service';
 import { RightPanelComponent } from './right-panel/right-panel.component';
 import { WIDTH_FIELD_PX, GAP_PX } from './injection-tokens';
-import { FigureComponent } from './components/figure/figure.component';
 import { FieldService } from './helpers/field.service';
-import { TranslateFigureDirective } from './helpers/action/translate-figure.component';
+import { TranslateFigureDirective } from './helpers/action/translate-figure.directive';
 import { Coordinates } from './model/cell.model';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
-import { ActionFigureDirective } from './helpers/action/action-figure.component';
+import { ActionFigureDirective } from './helpers/action/action-figure.directive';
 import { combineLatest, filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StartGameComponent } from './start-game/start-game.component';
 import { RestartGameComponent } from './restart-game/restart-game.component';
+import { FigureCanvasComponent } from './components/canvas/figure/figure-canvas.component';
+import { FieldCanvasComponent } from './components/canvas/field/field-canvas.component';
+import { HoverPositionDirective } from './helpers/action/hover-position.directive';
 
 @Component({
   selector: 'app-game',
   standalone: true,
   imports: [
-    FieldComponent,
     RightPanelComponent,
-    FigureComponent,
+    FigureCanvasComponent,
     StartGameComponent,
     RestartGameComponent,
+    FieldCanvasComponent,
 
     TranslateFigureDirective,
     ActionFigureDirective,
+    HoverPositionDirective,
 
     AsyncPipe,
   ],

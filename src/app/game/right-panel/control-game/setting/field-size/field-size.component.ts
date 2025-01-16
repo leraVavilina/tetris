@@ -2,7 +2,6 @@ import { Component, effect, inject } from '@angular/core';
 import { FieldService } from '../../../../helpers/field.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TuiSlider } from '@taiga-ui/kit';
-import { FieldComponent } from '../../../../components/field/field.component';
 import { GAP_PX, WIDTH_FIELD_PX } from '../../../../injection-tokens';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TuiButton, TuiDialogContext, TuiNotification } from '@taiga-ui/core';
@@ -14,13 +13,14 @@ import {
   MIN_WIDTH_FIELD,
   Size,
 } from '../../../../model/field.model';
+import { FieldCanvasComponent } from '../../../../components/canvas/field/field-canvas.component';
 
 @Component({
   selector: 'app-field-size',
   imports: [
     TuiSlider,
     ReactiveFormsModule,
-    FieldComponent,
+    FieldCanvasComponent,
     TuiButton,
     TuiNotification,
   ],
