@@ -14,7 +14,7 @@ import { FigureService } from '../../helpers/figure.service';
     FieldService,
     {
       provide: WIDTH_FIELD_PX,
-      useValue: 60,
+      useValue: 50,
     },
     {
       provide: GAP_PX,

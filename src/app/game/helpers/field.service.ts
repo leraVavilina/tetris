@@ -21,10 +21,12 @@ export class FieldService {
   private readonly _widthPx = inject(WIDTH_FIELD_PX);
   private readonly _gapPx = inject(GAP_PX);
 
-  private readonly _widthSubject = new BehaviorSubject<number>(10);
-  private readonly _heightSubject = new BehaviorSubject<number>(18);
+  private readonly _widthSubject = new BehaviorSubject<number>(6);
+  private readonly _heightSubject = new BehaviorSubject<number>(10);
   private readonly _cellSubject = new BehaviorSubject<Cell[][]>([]);
+  private readonly _scoreSubject = new BehaviorSubject<number>(0);
 
+  readonly score$ = this._scoreSubject.asObservable();
   readonly width$ = this._widthSubject.pipe(distinctUntilChanged());
   readonly height$ = this._heightSubject.pipe(distinctUntilChanged());
   readonly cells$ = this._cellSubject.asObservable();
@@ -112,12 +114,24 @@ export class FieldService {
     this._checkFillLines();
   }
 
+  lowestPosition(view: FigureView, position: Coordinates): Coordinates {
+    const test = { x: position.x, y: position.y };
+    while (this.canMove(view!, test)) {
+      test.y++;
+    }
+    test.y--;
+    return test;
+  }
+
   private _checkFillLines() {
     const cells = this._cellSubject.value;
     for (let i = 0; i < cells.length; i++) {
-      if (cells[i].every(({ isFree }) => isFree === false)) {
+      if (cells[i].every(({ isFree }) => !isFree)) {
+        this._scoreSubject.next(
+          this._scoreSubject.value + this._widthSubject.value,
+        );
         for (let j = i; j > 0; j--) {
-          cells[j] = cells[j - 1];
+          cells[j] = [...cells[j - 1]];
         }
       }
     }

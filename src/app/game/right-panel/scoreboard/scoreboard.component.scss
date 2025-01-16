@@ -1,3 +1,43 @@
-.island {
-  margin-bottom: -8px;
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+tui-badge {
+  justify-content: center;
+  width: 100%;
+  font-weight: 900;
+}
+
+.custom-1 {
+  background: linear-gradient(
+    90deg,
+    rgba(40, 230, 109, 1) 0%,
+    rgba(134, 239, 172, 1) 50%,
+    rgba(40, 230, 109, 1) 100%
+  );
+
+  box-shadow: var(--tui-shadow-small);
+}
+
+.custom-2 {
+  background: linear-gradient(
+    90deg,
+    rgba(50, 147, 255, 1) 0%,
+    rgba(147, 197, 253, 1) 50%,
+    rgba(50, 147, 255, 1) 100%
+  );
+
+  box-shadow: var(--tui-shadow-small);
+}
+
+.custom-3 {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 79, 79, 1) 0%,
+    rgba(252, 165, 165, 1) 50%,
+    rgba(255, 79, 79, 1) 100%
+  );
+
+  box-shadow: var(--tui-shadow-small);
 }

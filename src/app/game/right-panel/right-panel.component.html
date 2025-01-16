@@ -1,3 +1,27 @@
 <app-control-game />
-<app-next-figure />
-<app-scoreboard />
+
+<div
+  tuiAppearance="floating"
+  tuiCardLarge
+  class="tui-space_top-4"
+>
+  <header tuiHeader>
+    <h2 tuiTitle>Тетрамино</h2>
+
+    <aside tuiAccessories></aside>
+  </header>
+  <div><app-next-figure /></div>
+</div>
+
+<div
+  tuiAppearance="floating"
+  tuiCardLarge
+  class="tui-space_top-4"
+>
+  <header tuiHeader>
+    <h2 tuiTitle>Очки</h2>
+
+    <aside tuiAccessories></aside>
+  </header>
+  <div><app-scoreboard /></div>
+</div>

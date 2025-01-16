@@ -106,7 +106,6 @@ export class FigureService {
   downFigure() {
     const curPosition = this._positionSubject.value;
     const view = this._figureViewSubject.value;
-    4;
     const newPosition = {
       x: curPosition.x,
       y: curPosition.y + 1,
@@ -121,6 +120,22 @@ export class FigureService {
     } else {
       this._positionSubject.next(newPosition);
     }
+  }
+
+  putFigure() {
+    const view = this._figureViewSubject.value;
+    if (!view) {
+      throw new Error('figure is undefined');
+    }
+    const position = this._fieldService.lowestPosition(
+      view,
+      this._positionSubject.value,
+    );
+    this._positionSubject.next(position);
+
+    this.setFigure();
+    this._positionSubject.next(this.getDefaultPosition());
+    this.setNextFigure();
   }
 
   setFigure() {

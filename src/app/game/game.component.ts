@@ -10,7 +10,7 @@ import { Coordinates } from './model/cell.model';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
 import { ActionFigureDirective } from './helpers/action/action-figure.component';
-import { combineLatest, filter, map, startWith } from 'rxjs';
+import { combineLatest, filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StartGameComponent } from './start-game/start-game.component';
 import { RestartGameComponent } from './restart-game/restart-game.component';
@@ -22,11 +22,13 @@ import { RestartGameComponent } from './restart-game/restart-game.component';
     FieldComponent,
     RightPanelComponent,
     FigureComponent,
-    TranslateFigureDirective,
-    AsyncPipe,
-    ActionFigureDirective,
     StartGameComponent,
     RestartGameComponent,
+
+    TranslateFigureDirective,
+    ActionFigureDirective,
+
+    AsyncPipe,
   ],
   providers: [
     PlayService,
@@ -61,14 +63,9 @@ export class GameComponent {
   readonly position$ = this._figureService.position$;
   readonly lowestPosition$ = combineLatest([this.figure$, this.position$]).pipe(
     filter(([view]) => view !== undefined),
-    map(([view, position]) => {
-      const test = { x: position.x, y: position.y };
-      while (this._fieldService.canMove(view!, test)) {
-        test.y++;
-      }
-      test.y--;
-      return test;
-    }),
+    map(([view, position]) =>
+      this._fieldService.lowestPosition(view!, position),
+    ),
   );
 
   setPosition(position: Coordinates) {

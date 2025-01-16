@@ -1,2 +1,13 @@
-<div class="island">scoreboard</div>
-<div class="island">staticcs</div>
+@let score = (score$ | async) ?? 0;
+<tui-badge
+  appearance="custom"
+  size="xl"
+  class="custom-1"
+  [ngClass]="{
+    'custom-1': isSmall(score),
+    'custom-2': isMiddle(score),
+    'custom-3': isBig(score),
+  }"
+>
+  {{ score }}
+</tui-badge>

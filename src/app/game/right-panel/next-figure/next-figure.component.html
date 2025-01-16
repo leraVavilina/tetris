@@ -1,6 +1,6 @@
 <div class="island">
   @if (current$ | async; as current) {
-    <div class="title">Текущая:</div>
+    <div class="title">Текущее:</div>
     <div class="figure">
       <app-figure
         [color]="current.color"
@@ -11,7 +11,7 @@
     </div>
   }
   @if (next$ | async; as next) {
-    <div class="title">Следующие:</div>
+    <div class="title">Следующее:</div>
     <div class="next">
       @for (figure of next; track $index; let index = $index) {
         @if (index < 3) {

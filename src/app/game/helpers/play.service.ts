@@ -12,14 +12,22 @@ import {
 import { FigureService } from './figure.service';
 import { FieldService } from './field.service';
 import { FIGURE_VIEW } from '../model/figure.consts';
-import { Speed, SPEED_MAP } from '../model/game.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class PlayService implements OnDestroy {
   private readonly _figureService = inject(FigureService);
   private readonly _fieldService = inject(FieldService);
+
+  private _defaultSpeed = 1000;
+  private _speedCoef = 1.2;
+  private _scoreForSpeed = 7;
+  private _minSpeed = 300;
+
   private readonly _isPlaySubject = new BehaviorSubject<boolean>(false);
-  private readonly _speedSubject = new BehaviorSubject<Speed>('default');
+  private readonly _speedSubject = new BehaviorSubject<number>(
+    this._defaultSpeed,
+  );
   private readonly _onDestroy = new Subject<void>();
   private readonly _isGameOverSubject = new BehaviorSubject<boolean>(false);
 
@@ -35,7 +43,7 @@ export class PlayService implements OnDestroy {
           if (isPlay) {
             return this._speedSubject.pipe(
               switchMap((speed) =>
-                interval(SPEED_MAP[speed]).pipe(takeUntil(this._onDestroy)),
+                interval(speed).pipe(takeUntil(this._onDestroy)),
               ),
             );
           }
@@ -64,10 +72,29 @@ export class PlayService implements OnDestroy {
         }
       });
 
+    this._fieldService.score$.pipe(takeUntilDestroyed()).subscribe((score) => {
+      const delta = score / this._scoreForSpeed;
+      const newSpeed = Math.max(
+        this._defaultSpeed / (delta * this._speedCoef),
+        this._minSpeed,
+      );
+      if (delta > 1) {
+        this._speedSubject.next(newSpeed);
+      }
+    });
+
     this.start();
   }
 
-  setSpeed(speed: Speed) {
+  speedUp(coef: number) {
+    let speed = this._speedSubject.value;
+    speed = speed / coef;
+    this._speedSubject.next(speed);
+  }
+
+  speedDown(coef: number) {
+    let speed = this._speedSubject.value;
+    speed = speed * coef;
     this._speedSubject.next(speed);
   }
 

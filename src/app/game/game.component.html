@@ -10,24 +10,26 @@
     [class.game-over]="isGameOver$ | async"
     (hoverPosition)="setPosition($event)"
   />
-  @if (figure$ | async; as figure) {
-    @if (lowestPosition$ | async; as position) {
+  @if ((isGameOver$ | async) === false) {
+    @if (figure$ | async; as figure) {
+      @if (lowestPosition$ | async; as position) {
+        <app-figure
+          appTranslateFigure
+          class="figure"
+          [color]="(color$ | async) ?? 'default'"
+          [figure]="figure"
+          [position]="position"
+          [isDotted]="true"
+        />
+      }
       <app-figure
         appTranslateFigure
         class="figure"
         [color]="(color$ | async) ?? 'default'"
         [figure]="figure"
-        [position]="position"
-        [isDotted]="true"
+        [position]="(position$ | async)!"
       />
     }
-    <app-figure
-      appTranslateFigure
-      class="figure"
-      [color]="(color$ | async) ?? 'default'"
-      [figure]="figure"
-      [position]="(position$ | async)!"
-    />
   }
 </div>
 
