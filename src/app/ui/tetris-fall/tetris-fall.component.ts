@@ -30,7 +30,7 @@ import { FigureCanvasComponent } from '../../game/components/canvas/figure/figur
 })
 export class TetrisFallComponent implements AfterViewInit {
   private readonly _elementRef: any = inject(ElementRef);
-  readonly count = input<number>(20);
+  readonly count = input<number>(15);
   readonly size = input<number>(10);
   readonly speed = input<number>(500);
   readonly randomFigure = computed(() => generateFigure(this.count()));

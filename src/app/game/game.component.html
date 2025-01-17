@@ -6,7 +6,8 @@
 
 <div class="field">
   <app-field-canvas
-    [appActionFigure]="fieldPosition()"
+    appKeyboardControl
+    appMouseControl
     [class.game-over]="isGameOver$ | async"
     (appHoverPosition)="setPosition($event)"
   />

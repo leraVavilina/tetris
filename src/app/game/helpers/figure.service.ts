@@ -56,6 +56,12 @@ export class FigureService {
     const lastIndexX = this._fieldService.cells[0].length - view[0].length;
     const lastIndexY = this._fieldService.cells.length - view.length;
     const newPosition = { x: position.x, y: position.y };
+    if (newPosition.x < 0) {
+      newPosition.x = 0;
+    }
+    if (newPosition.y < 0) {
+      newPosition.y = 0;
+    }
     if (newPosition.x > lastIndexX) {
       newPosition.x = lastIndexX;
     }
@@ -67,7 +73,7 @@ export class FigureService {
     }
   }
 
-  rotate() {
+  rotate(isClockWise = true) {
     const view = this._figureViewSubject.value;
     const pos = this._positionSubject.value;
     if (!view) {
@@ -77,11 +83,20 @@ export class FigureService {
       { length: view[0].length },
       () => new Array(view.length),
     );
-    for (let x = 0; x < view[0].length; x++) {
-      for (let y = 0; y < view.length; y++) {
-        result[view[0].length - x - 1][y] = view[y][x];
+    if (isClockWise) {
+      for (let x = 0; x < view.length; x++) {
+        for (let y = 0; y < view[0].length; y++) {
+          result[y][x] = view[view.length - 1 - x][y];
+        }
+      }
+    } else {
+      for (let x = 0; x < view[0].length; x++) {
+        for (let y = 0; y < view.length; y++) {
+          result[x][y] = view[y][view[0].length - x - 1];
+        }
       }
     }
+
     let i = -1;
     while (i++ < view.length) {
       if (pos.x - i < 0) {
@@ -124,7 +139,7 @@ export class FigureService {
       return;
     }
     if (!this._fieldService.canMove(view, newPosition)) {
-      this.setFigure();
+      this._setFigure();
       this._positionSubject.next(this.getDefaultPosition());
       this.setNextFigure();
     } else {
@@ -143,12 +158,12 @@ export class FigureService {
     );
     this._positionSubject.next(position);
 
-    this.setFigure();
+    this._setFigure();
     this._positionSubject.next(this.getDefaultPosition());
     this.setNextFigure();
   }
 
-  setFigure() {
+  private _setFigure() {
     const view = this._figureViewSubject.value;
     const curFigure = this._figureSubject.value;
     if (!view || !curFigure) {

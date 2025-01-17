@@ -13,6 +13,6 @@ export class RestartGameComponent {
   private readonly _playService = inject(PlayService);
 
   play() {
-    this._playService.isPlay(true);
+    this._playService.setIsPlay(true);
   }
 }

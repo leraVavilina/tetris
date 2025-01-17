@@ -99,8 +99,12 @@ export class PlayService implements OnDestroy {
     this._speedSubject.next(speed);
   }
 
-  isPlay(isPlay: boolean) {
+  setIsPlay(isPlay: boolean) {
     this._isPlaySubject.next(isPlay);
+  }
+
+  getIsPlay(): boolean {
+    return this._isPlaySubject.value;
   }
 
   start() {

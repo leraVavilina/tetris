@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  margin-top: 15px;
+  font: var(--tui-font-text-ui-m);
+}
+
+tui-scrollbar {
+  display: block;
+  max-height: 300px;
+  height: 100%;
+}
+
+.hotkeys {
+  gap: 4px;
+  display: grid;
+  grid-template-columns: 70px auto;
+  justify-content: start;
+  align-items: center;
+
+  button {
+    justify-self: start;
+  }
+}
+
+.title {
+  border-bottom: 1px solid var(--tui-border-normal);
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+.title:not(:first-of-type) {
+  margin-top: 20px;
+}

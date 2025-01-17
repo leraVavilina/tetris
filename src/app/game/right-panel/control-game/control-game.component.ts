@@ -23,16 +23,12 @@ export class ControlGameComponent {
   readonly width$ = this._fieldService.width$;
   readonly height$ = this._fieldService.height$;
 
-  constructor() {
-    // this.showDialog();
-  }
-
   pause() {
-    this._playService.isPlay(false);
+    this._playService.setIsPlay(false);
   }
 
   play() {
-    this._playService.isPlay(true);
+    this._playService.setIsPlay(true);
   }
 
   showDialog() {

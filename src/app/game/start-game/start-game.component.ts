@@ -35,8 +35,9 @@ export class StartGameComponent {
   private readonly _fieldService = inject(FieldService);
 
   readonly score$ = this._fieldService.score$;
+
   constructor() {
-    this.startGame();
+    this.openSetting();
   }
 
   startGame() {

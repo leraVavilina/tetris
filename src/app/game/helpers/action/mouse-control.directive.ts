@@ -1,6 +1,5 @@
-import { Directive, HostListener, inject, input } from '@angular/core';
+import { Directive, HostListener, inject } from '@angular/core';
 import { FigureService } from '../figure.service';
-import { Coordinates } from '../../model/cell.model';
 import { PlayService } from '../play.service';
 
 const BUTTON_MAP: Record<'left' | 'right', number> = {
@@ -8,11 +7,10 @@ const BUTTON_MAP: Record<'left' | 'right', number> = {
   right: 2,
 };
 
-@Directive({ selector: '[appActionFigure]', standalone: true })
-export class ActionFigureDirective {
+@Directive({ selector: '[appMouseControl]', standalone: true })
+export class MouseControlDirective {
   private readonly _figureService = inject(FigureService);
   private readonly _playService = inject(PlayService);
-  readonly position = input.required<Coordinates>({ alias: 'appActionFigure' });
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
     if (event.button === BUTTON_MAP.left) {
@@ -20,7 +18,6 @@ export class ActionFigureDirective {
     }
     if (event.button === BUTTON_MAP.right) {
       this._figureService.rotate();
-      this._figureService.horizontalMove(this.position().x);
     }
   }
 
@@ -36,7 +33,9 @@ export class ActionFigureDirective {
     }
   }
 
-  @HostListener('contextmenu', ['$event']) contextmenu(event: MouseEvent) {
+  @HostListener('document:contextmenu', ['$event']) contextmenu(
+    event: MouseEvent,
+  ) {
     event.preventDefault();
   }
 }

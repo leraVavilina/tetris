@@ -1,0 +1,106 @@
+<tui-accordion>
+  <button [tuiAccordion]="isKeyboardActive()">Горячие клавиши</button>
+  <tui-expand>
+    <tui-scrollbar>
+      <div class="title">Перемещение</div>
+      <div class="hotkeys">
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+          iconStart="@tui.arrow-left"
+        ></button>
+        <div>Переместить фигуру влево</div>
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+          iconStart="@tui.arrow-right"
+        ></button>
+        <div>Переместить фигуру вправо</div>
+      </div>
+
+      <div class="title">Ускорение</div>
+      <div class="hotkeys">
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+          iconStart="@tui.arrow-down"
+        ></button>
+        <div>Ускорить падение фигуры</div>
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+        >
+          Space
+        </button>
+        <div>Немедленно опускает фигуру до самого низа (хард-дроп)</div>
+      </div>
+
+      <div class="title">Поворот</div>
+      <div class="hotkeys">
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+          iconStart="@tui.arrow-up"
+        ></button>
+        <div>Поворот фигуры по часовой</div>
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+        >
+          Z
+        </button>
+        <div>Поворот фигуры против часовой стрелки</div>
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+        >
+          X
+        </button>
+        <div>Поворот фигуры по часовой стрелке</div>
+      </div>
+
+      <div class="title">Другое</div>
+      <div class="hotkeys">
+        <button
+          appearance="info"
+          tuiButton
+          type="button"
+          size="s"
+        >
+          Esc
+        </button>
+        <div>Поставить на Паузу / Воспроизвести</div>
+      </div>
+    </tui-scrollbar>
+  </tui-expand>
+  <button [tuiAccordion]="!isKeyboardActive()">
+    Управление мышкой <tui-icon icon="@tui.rat" />
+  </button>
+  <tui-expand>
+    <tui-scrollbar>
+      <div class="title">Перемещение</div>
+      <div>
+        Движение курсора мыши вправо и влево перемещает фигуру соответственно
+      </div>
+      <div class="title">Ускорение</div>
+      <div>Удерживание левой кнопки мыши ускоряет падение фигуры</div>
+      <div>Двойное нажатие левой мыши мгновенно опускает фигуру</div>
+      <div class="title">Поворот</div>
+      <div>Нажатие правой кнопки мыши поворачивает фигуру</div>
+    </tui-scrollbar>
+  </tui-expand>
+</tui-accordion>

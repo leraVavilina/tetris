@@ -7,7 +7,7 @@ import { TranslateFigureDirective } from './helpers/action/translate-figure.dire
 import { Coordinates } from './model/cell.model';
 import { FigureService } from './helpers/figure.service';
 import { AsyncPipe } from '@angular/common';
-import { ActionFigureDirective } from './helpers/action/action-figure.directive';
+import { MouseControlDirective } from './helpers/action/mouse-control.directive';
 import { combineLatest, filter, map } from 'rxjs';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { StartGameComponent } from './start-game/start-game.component';
@@ -17,6 +17,7 @@ import { FieldCanvasComponent } from './components/canvas/field/field-canvas.com
 import { HoverPositionDirective } from './helpers/action/hover-position.directive';
 import { getSizeFromStorage } from './helpers/get-size-from-storage';
 import { FigureView } from './model/figure.consts';
+import { KeyboardControlDirective } from './helpers/action/keyboard-control.directive';
 
 @Component({
   selector: 'app-game',
@@ -29,8 +30,9 @@ import { FigureView } from './model/figure.consts';
     FieldCanvasComponent,
 
     TranslateFigureDirective,
-    ActionFigureDirective,
+    MouseControlDirective,
     HoverPositionDirective,
+    KeyboardControlDirective,
 
     AsyncPipe,
   ],
