@@ -43,12 +43,15 @@ export class FigureCanvasComponent
     const view = this.items();
     const color = COLOR_MAP[this.color()];
 
-    this.ctx.fillStyle = color;
     for (let y = 0; y < view.length; y++) {
       for (let x = 0; x < view[0].length; x++) {
         if (view[y][x]) {
           if (this.isDotted()) {
-            this.ctx.globalAlpha = 0.4;
+            this.ctx.fillStyle = '#94A3B8';
+            this.ctx.globalAlpha = 0.6;
+          } else {
+            this.ctx.fillStyle = color;
+            this.ctx.globalAlpha = 1;
           }
 
           this.drawCell({ x, y });

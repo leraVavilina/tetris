@@ -24,7 +24,7 @@ export class ControlGameComponent {
   readonly height$ = this._fieldService.height$;
 
   constructor() {
-    this.showDialog();
+    // this.showDialog();
   }
 
   pause() {

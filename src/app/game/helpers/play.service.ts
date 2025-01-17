@@ -20,8 +20,8 @@ export class PlayService implements OnDestroy {
   private readonly _fieldService = inject(FieldService);
 
   private _defaultSpeed = 1000;
-  private _speedCoef = 1.2;
-  private _scoreForSpeed = 7;
+  private _speedCoef = 0.01;
+  private _scoreForSpeed = 13;
   private _minSpeed = 300;
 
   private readonly _isPlaySubject = new BehaviorSubject<boolean>(true);
@@ -78,7 +78,7 @@ export class PlayService implements OnDestroy {
     this._fieldService.score$.pipe(takeUntilDestroyed()).subscribe((score) => {
       const delta = score / this._scoreForSpeed;
       const newSpeed = Math.max(
-        this._defaultSpeed / (delta * this._speedCoef),
+        this._defaultSpeed - this._defaultSpeed * (delta * this._speedCoef),
         this._minSpeed,
       );
       if (delta > 1) {

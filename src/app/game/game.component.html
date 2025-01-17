@@ -13,14 +13,16 @@
   @if ((isGameOver$ | async) === false) {
     @if (figure$ | async; as figure) {
       @if (lowestPosition$ | async; as position) {
-        <app-figure-canvas
-          appTranslateFigure
-          class="figure"
-          [color]="(color$ | async) ?? 'default'"
-          [figure]="figure"
-          [position]="position"
-          [isDotted]="true"
-        />
+        @if (!isOverlay(position, (position$ | async)!, figure)) {
+          <app-figure-canvas
+            appTranslateFigure
+            class="figure"
+            [color]="(color$ | async) ?? 'default'"
+            [figure]="figure"
+            [position]="position"
+            [isDotted]="true"
+          />
+        }
       }
       <app-figure-canvas
         appTranslateFigure

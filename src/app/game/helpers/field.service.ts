@@ -22,7 +22,7 @@ export class FieldService {
   private readonly _gapPx = inject(GAP_PX);
 
   private readonly _widthSubject = new BehaviorSubject<number>(10);
-  private readonly _heightSubject = new BehaviorSubject<number>(18);
+  private readonly _heightSubject = new BehaviorSubject<number>(20);
   private readonly _cellSubject = new BehaviorSubject<Cell[][]>([]);
   private readonly _scoreSubject = new BehaviorSubject<number>(0);
   private readonly _cellSizeSubject = new BehaviorSubject<number>(0);

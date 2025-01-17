@@ -69,6 +69,7 @@ export class FigureService {
 
   rotate() {
     const view = this._figureViewSubject.value;
+    const pos = this._positionSubject.value;
     if (!view) {
       return;
     }
@@ -81,8 +82,17 @@ export class FigureService {
         result[view[0].length - x - 1][y] = view[y][x];
       }
     }
-    if (this._fieldService.canMove(result, this._positionSubject.value)) {
-      this._figureViewSubject.next(result);
+    let i = -1;
+    while (i++ < view.length) {
+      if (pos.x - i < 0) {
+        return;
+      }
+      const translatePosition = { x: pos.x - i, y: pos.y };
+      if (this._fieldService.canMove(result, translatePosition)) {
+        this._positionSubject.next(translatePosition);
+        this._figureViewSubject.next(result);
+        return;
+      }
     }
   }
 

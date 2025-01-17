@@ -11,5 +11,5 @@ import { TetrisFallComponent } from '../../../../ui/tetris-fall/tetris-fall.comp
   styleUrl: './setting.component.scss',
 })
 export class SettingComponent {
-  readonly activeTab = signal<number>(2);
+  readonly activeTab = signal<number>(0);
 }

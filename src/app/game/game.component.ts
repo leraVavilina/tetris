@@ -16,6 +16,7 @@ import { FigureCanvasComponent } from './components/canvas/figure/figure-canvas.
 import { FieldCanvasComponent } from './components/canvas/field/field-canvas.component';
 import { HoverPositionDirective } from './helpers/action/hover-position.directive';
 import { getSizeFromStorage } from './helpers/get-size-from-storage';
+import { FigureView } from './model/figure.consts';
 
 @Component({
   selector: 'app-game',
@@ -89,5 +90,16 @@ export class GameComponent {
       this.fieldPosition.set(position);
       this._figureService.horizontalMove(position.x);
     }
+  }
+
+  isOverlay(
+    positionUp: Coordinates,
+    positionDown: Coordinates,
+    view: FigureView,
+  ): boolean {
+    if (positionUp.y < positionDown.y + view.length) {
+      return true;
+    }
+    return false;
   }
 }
