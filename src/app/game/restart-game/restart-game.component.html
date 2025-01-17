@@ -6,13 +6,25 @@
     <span tuiTitle>Игра на паузе</span>
   </div>
 
-  <button
-    appearance="primary"
-    tuiButton
-    type="button"
-    size="s"
-    (click)="play()"
-  >
-    Возобновить игру
-  </button>
+  <div class="buttons">
+    <button
+      appearance="primary"
+      tuiButton
+      type="button"
+      size="m"
+      (click)="play()"
+    >
+      Возобновить игру
+    </button>
+
+    <button
+      appearance="secondary"
+      tuiButton
+      type="button"
+      size="m"
+      (click)="newGame()"
+    >
+      Новая игра
+    </button>
+  </div>
 </div>

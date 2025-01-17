@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GAP_PX, WIDTH_FIELD_PX } from '../../injection-tokens';
 import { FieldService } from '../../helpers/field.service';
 import { combineLatest, map } from 'rxjs';
@@ -23,6 +23,7 @@ import { FigureCanvasComponent } from '../../components/canvas/figure/figure-can
   ],
   templateUrl: './next-figure.component.html',
   styleUrl: './next-figure.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NextFigureComponent {
   private readonly _gapPx = inject(GAP_PX);

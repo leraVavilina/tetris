@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   TuiAppearance,
   TuiButton,
@@ -28,6 +28,7 @@ import { take } from 'rxjs';
   ],
   templateUrl: './start-game.component.html',
   styleUrl: './start-game.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StartGameComponent {
   private readonly _playService = inject(PlayService);
@@ -36,12 +37,8 @@ export class StartGameComponent {
 
   readonly score$ = this._fieldService.score$;
 
-  constructor() {
-    this.openSetting();
-  }
-
   startGame() {
-    this._playService.start();
+    this._playService.newGame();
   }
 
   openSetting() {

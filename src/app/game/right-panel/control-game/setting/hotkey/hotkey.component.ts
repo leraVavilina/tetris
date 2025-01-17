@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TuiButton, TuiIcon, TuiScrollbar } from '@taiga-ui/core';
 import { TuiAccordion } from '@taiga-ui/experimental';
 
@@ -7,7 +7,8 @@ import { TuiAccordion } from '@taiga-ui/experimental';
   imports: [TuiAccordion, TuiScrollbar, TuiIcon, TuiButton],
   templateUrl: './hotkey.component.html',
   styleUrl: './hotkey.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HotkeyComponent {
-  readonly isKeyboardActive = signal<boolean>(false);
+  readonly isKeyboardActive = signal<boolean>(true);
 }

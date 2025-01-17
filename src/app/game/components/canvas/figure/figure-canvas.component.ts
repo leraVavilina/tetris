@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -19,6 +20,7 @@ import { Color, COLOR_MAP } from '../../../model/color.model';
   templateUrl: './figure-canvas.component.html',
   styleUrl: './figure-canvas.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FigureCanvasComponent
   extends CellBasedDirective<0 | 1>

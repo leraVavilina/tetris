@@ -1,4 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { PlayService } from './helpers/play.service';
 import { RightPanelComponent } from './right-panel/right-panel.component';
 import { WIDTH_FIELD_PX, GAP_PX } from './injection-tokens';
@@ -51,6 +56,7 @@ import { KeyboardControlDirective } from './helpers/action/keyboard-control.dire
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameComponent {
   private readonly _figureService = inject(FigureService);

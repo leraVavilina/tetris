@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   ElementRef,
@@ -27,8 +29,10 @@ import { FigureCanvasComponent } from '../../game/components/canvas/figure/figur
   ],
   templateUrl: './tetris-fall.component.html',
   styleUrl: './tetris-fall.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TetrisFallComponent implements AfterViewInit {
+  private readonly _cdr = inject(ChangeDetectorRef);
   private readonly _elementRef: any = inject(ElementRef);
   readonly count = input<number>(15);
   readonly size = input<number>(10);
@@ -61,6 +65,7 @@ export class TetrisFallComponent implements AfterViewInit {
   private _fall() {
     requestAnimationFrame(() => {
       this._fall();
+      this._cdr.detectChanges();
     });
 
     this.styles().forEach((style) => {

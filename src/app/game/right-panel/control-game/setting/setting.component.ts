@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TuiTabs } from '@taiga-ui/kit';
 import { FieldSizeComponent } from './field-size/field-size.component';
 import { RuleComponent } from './rule/rule.component';
@@ -16,7 +16,8 @@ import { HotkeyComponent } from './hotkey/hotkey.component';
   ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingComponent {
-  readonly activeTab = signal<number>(2);
+  readonly activeTab = signal<number>(0);
 }

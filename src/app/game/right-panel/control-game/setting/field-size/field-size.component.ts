@@ -1,4 +1,9 @@
-import { Component, effect, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+} from '@angular/core';
 import { FieldService } from '../../../../helpers/field.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TuiSlider } from '@taiga-ui/kit';
@@ -38,6 +43,7 @@ import { getSizeFromStorage } from '../../../../helpers/get-size-from-storage';
   ],
   templateUrl: './field-size.component.html',
   styleUrl: './field-size.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FieldSizeComponent {
   private readonly _fb = inject(FormBuilder);

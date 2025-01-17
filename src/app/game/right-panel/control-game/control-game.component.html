@@ -8,6 +8,7 @@
     tuiHintDirection="bottom"
     tuiHint="Поставить игру на паузу"
     (click)="pause()"
+    [disabled]="isGameOver$ | async"
   >
     Пауза
   </button>
@@ -21,6 +22,7 @@
     tuiHintDirection="bottom"
     tuiHint="Возобновить игру"
     (click)="play()"
+    [disabled]="isGameOver$ | async"
   >
     Возобновить
   </button>

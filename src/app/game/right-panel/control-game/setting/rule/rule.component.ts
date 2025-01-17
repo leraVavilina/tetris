@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TuiStepper } from '@taiga-ui/kit';
 
 @Component({
@@ -6,6 +6,7 @@ import { TuiStepper } from '@taiga-ui/kit';
   imports: [TuiStepper],
   templateUrl: './rule.component.html',
   styleUrl: './rule.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RuleComponent {
   activeItem = 0;

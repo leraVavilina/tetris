@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -17,6 +18,7 @@ import { COLOR_MAP } from '../../../model/color.model';
   imports: [],
   templateUrl: './field-canvas.component.html',
   styleUrl: './field-canvas.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FieldCanvasComponent
   extends CellBasedDirective<Cell>

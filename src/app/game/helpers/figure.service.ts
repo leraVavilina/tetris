@@ -38,6 +38,7 @@ export class FigureService {
   newGame() {
     this._figureSubject.next(generateFigure(1)[0]);
     this._nextFigureSubject.next(generateFigure(10));
+    this.setPosition(this.getDefaultPosition());
   }
 
   getDefaultPosition(): Coordinates {

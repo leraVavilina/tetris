@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TuiButton, TuiDialogService, TuiHint, TuiIcon } from '@taiga-ui/core';
 import { SettingComponent } from './setting/setting.component';
 import { FieldService } from '../../helpers/field.service';
@@ -14,11 +14,13 @@ import { take } from 'rxjs';
   imports: [TuiButton, TuiIcon, TuiHint, AsyncPipe],
   templateUrl: './control-game.component.html',
   styleUrl: './control-game.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ControlGameComponent {
   private readonly _fieldService = inject(FieldService);
   private readonly _playService = inject(PlayService);
   private readonly _tuiDialog = inject(TuiDialogService);
+  readonly isGameOver$ = this._playService.isGameOver$;
   readonly isPlay$ = this._playService.isPlay$;
   readonly width$ = this._fieldService.width$;
   readonly height$ = this._fieldService.height$;

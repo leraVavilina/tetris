@@ -70,7 +70,6 @@ export class PlayService implements OnDestroy {
       )
       .subscribe((isOver) => {
         if (isOver) {
-          this._isPlaySubject.next(false);
           this._isGameOverSubject.next(true);
         }
       });
@@ -107,7 +106,7 @@ export class PlayService implements OnDestroy {
     return this._isPlaySubject.value;
   }
 
-  start() {
+  newGame() {
     this._isPlaySubject.next(true);
     this._isGameOverSubject.next(false);
     this._fieldService.newField();
