@@ -52,6 +52,7 @@ export class StartGameComponent {
       .subscribe(({ width, height }) => {
         width && this._fieldService.setWidth(width);
         height && this._fieldService.setHeight(height);
+        this._playService.newGame();
       });
   }
 }
